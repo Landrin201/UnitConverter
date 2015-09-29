@@ -36,4 +36,16 @@
 
     <string name="hello_world">Hello world!</string>
 
+    <!-- String arrays for the unit converter spinners -->
+    <string-array name="length_units">
+        <item>Inches</item>
+        <item>Feet</item>
+        <item>Yards</item>
+        <item>Miles</item>
+        <item>Millimeters</item>
+        <item>Centimeters</item>
+        <item>Meters</item>
+        <item>Kilometers</item>
+    </string-array>
+
 </resources>

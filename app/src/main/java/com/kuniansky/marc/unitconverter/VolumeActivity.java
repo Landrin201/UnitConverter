@@ -1,15 +1,18 @@
 package com.kuniansky.marc.unitconverter;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 
 public class VolumeActivity extends AppCompatActivity {
 
@@ -56,11 +59,17 @@ public class VolumeActivity extends AppCompatActivity {
     }
 
     /**
-     * Converts a number from the EditText and converts it to a specified new unit
+     * Converts a number from the EditText and converts it to a specified new volume unit
      */
     public void convertvolume(View view)
     { //Begin convert volume
-        //Create a double
+        //First, hide the keyboard when the convert button is pressed. Thanks to the following Stack Exchange thread for the help:
+        //http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         //Instantiate a converter
         Converter converter = new Converter();
         textField1 = (EditText) findViewById(R.id.volume_input);

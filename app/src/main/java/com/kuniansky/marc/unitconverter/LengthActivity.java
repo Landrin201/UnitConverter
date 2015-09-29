@@ -1,10 +1,12 @@
 package com.kuniansky.marc.unitconverter;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -23,6 +25,8 @@ import java.util.List;
  *                            with the spinners and make item selections. Had the text box show which item was selected to test functionality
  * Marc Kuniansky, 9/18/2015, Implemented the convertLength method. This method works in conjunction with the Converter class to convert the input
  *                            to the proper output. Made the text view show the final output.
+ *
+ *                            Note: This class provides the basis for all other activities in the app.
  */
 public class LengthActivity extends AppCompatActivity {
 
@@ -69,11 +73,17 @@ public class LengthActivity extends AppCompatActivity {
     }
 
     /**
-     * Converts a number from the EditText and converts it to a specified new unit
+     * Converts a number from the EditText and converts it to a specified new length unit
      */
     public void convertLength(View view)
     { //Begin convert length
-        //Create a double
+        //First, hide the keyboard when the convert button is pressed. Thanks to the following Stack Exchange thread for the help:
+        //http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         //Instantiate a converter
         Converter converter = new Converter();
         textField1 = (EditText) findViewById(R.id.length_input);
@@ -121,10 +131,16 @@ public class LengthActivity extends AppCompatActivity {
     public void setSpinnerItems()
     {
         //I have the array here instead of in XML because changing/adding units requires extensive editing in this file
-        String[] units = {"Inches", "Feet", "Yards", "Miles", "Millimeters", "Centimeters", "Meters", "Kilometers"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, units);
+        //String[] units = {"Inches", "Feet", "Yards", "Miles", "Millimeters", "Centimeters", "Meters", "Kilometers"};
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, units);
         spinner1 = (Spinner)findViewById(R.id.length_unit_spinner1);
         spinner2 = (Spinner)findViewById(R.id.length_unit_spinner2);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.length_units, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
     }

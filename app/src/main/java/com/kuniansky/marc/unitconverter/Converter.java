@@ -81,7 +81,7 @@ public class Converter
             } //End converting from inches to millimeters
 
             //Next, inches to centimeters
-            else if(newU.equals("centimeteters")) { //Begin converting from inches to centimeters
+            else if(newU.contains("centi")) { //Begin converting from inches to centimeters
                 //2.54cm in an inch, multiply inches by 2.54
                 num2 = num1 * 2.54d;
             } //End converting from inches to centimeters

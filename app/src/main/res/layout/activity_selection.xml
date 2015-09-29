@@ -2,6 +2,15 @@
 
 <!-- Because this is the main page, the buttons need to all be clearly
      id'd as being part of the main page. -->
+
+<!-- The scroll view allows the orientation to change while allowing the user to scroll to the
+    all elements on the page.-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
+    android:layout_height="fill_parent" android:layout_width="fill_parent" android:fillViewport="true" android:scrollbars="vertical">
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -136,3 +145,5 @@
 
 
 </RelativeLayout>
+
+    </ScrollView>
