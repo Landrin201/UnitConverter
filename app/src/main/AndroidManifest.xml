@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kuniansky.marc.unitconverter" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".SelectionActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LengthActivity"
+            android:label="@string/title_activity_length" >
+        </activity>
+        <activity
+            android:name=".AreaConverter"
+            android:label="@string/title_activity_area_converter" >
+        </activity>
+        <activity
+            android:name=".TempConvert"
+            android:label="@string/title_activity_temp_convert" >
+        </activity>
+        <activity
+            android:name=".VolumeActivity"
+            android:label="@string/title_activity_volume" >
+        </activity>
+        <activity
+            android:name=".MassActivity"
+            android:label="@string/title_activity_mass" >
+        </activity>
+        <activity
+            android:name=".PressureActivity"
+            android:label="@string/title_activity_pressure" >
+        </activity>
+        <activity
+            android:name=".TimeActivity"
+            android:label="@string/title_activity_time" >
+        </activity>
+        <activity
+            android:name=".ForceActivity"
+            android:label="@string/title_activity_force" >
+        </activity>
+        <activity
+            android:name=".SpeedActivity"
+            android:label="@string/title_activity_speed" >
+        </activity>
+        <activity
+            android:name=".MetricActivity"
+            android:label="@string/title_activity_metric" >
+        </activity>
+    </application>
+
+</manifest>

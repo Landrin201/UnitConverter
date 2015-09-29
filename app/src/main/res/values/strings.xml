@@ -1,0 +1,39 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="app_name">Unit Converter</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings for the main paage of the app-->
+    <string name="home_page_instruction" font-size="30">Please select a type of unit to convert.</string>
+    <string name="length_button">Length</string>
+    <string name="speed_button">Speed</string>
+    <string name="vol_button">Volume</string>
+    <string name="temp_button">Temp.</string>
+    <string name="mass_button">Mass</string>
+    <string name="force_button">Force</string>
+    <string name="pressure_button">Pressure</string>
+    <string name="area_button">Area</string>
+    <string name="time_button">Time</string>
+    <string name="metric_button">Metric</string>
+
+    //titles for the manifest
+    <string name="title_activity_length">Length Converter</string>
+    <string name="title_activity_area_converter">Area Converter</string>
+    <string name="title_activity_temp_convert">Temp Converter</string>
+    <string name="title_activity_volume">Volume Converter</string>
+    <string name="title_activity_mass">Mass Converter</string>
+    <string name="title_activity_pressure">Pressure Converter</string>
+    <string name="title_activity_time">Time Converter</string>
+    <string name="title_activity_force">Force Converter</string>
+    <string name="title_activity_speed">Speed Converter</string>
+    <string name="title_activity_metric">Metric Converter</string>
+
+    <!-- Strings for the converter activities -->
+    <string name="from">Convert from:</string>
+    <string name="to">Convert to:</string>
+    <string name="tftext">Enter a number</string>
+    <string name="submit">Convert</string>
+    <string name="prompt">Units</string>
+
+    <string name="hello_world">Hello world!</string>
+
+</resources>

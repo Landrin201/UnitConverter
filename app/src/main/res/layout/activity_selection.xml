@@ -1,0 +1,138 @@
+<!-- Created September 17, 2015 by Marc Kuniansky. -->
+
+<!-- Because this is the main page, the buttons need to all be clearly
+     id'd as being part of the main page. -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".SelectionActivity"
+    android:weightSum="1">
+
+    <!-- I need a text view and several buttons- this is for the home page
+    of the app.-->
+    <TextView
+        android:id="@+id/instruct"
+        android:text="@string/home_page_instruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/main_length_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp" />
+
+
+
+
+
+    <!-- Make a bunch of buttons now -->
+    <!-- The center buttons are the important ones -->
+    <Button
+        android:id="@+id/main_temperature_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/temp_button"
+        android:onClick="onTempButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_area_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/main_temperature_button"
+        android:text="@string/area_button"
+        android:onClick="onAreaButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_pressure_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/main_temperature_button"
+        android:text="@string/pressure_button"
+        android:onClick="onPressureButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_volume_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:text="@string/vol_button"
+        android:layout_above="@+id/main_force_button"
+        android:layout_alignLeft="@+id/main_mass_button"
+        android:layout_alignStart="@+id/main_mass_button"
+        android:onClick="onVolumeButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_force_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_temperature_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/force_button"
+        android:onClick="onForceButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_length_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:text="@string/length_button"
+        android:layout_above="@id/main_volume_button"
+        android:layout_alignLeft="@id/main_volume_button"
+        android:layout_alignStart="@id/main_volume_button"
+        android:onClick="onLengthButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_speed_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:text="@string/speed_button"
+        android:layout_above="@id/main_temperature_button"
+        android:layout_toRightOf="@id/main_area_button"
+        android:layout_toEndOf="@id/main_area_button"
+        android:onClick="onSpeedButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_mass_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_volume_button"
+        android:layout_toLeftOf="@id/main_temperature_button"
+        android:text="@string/mass_button"
+        android:onClick="onMassButtonClick"
+        />
+
+    <Button
+        android:id="@+id/main_time_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_pressure_button"
+        android:layout_toRightOf="@id/main_temperature_button"
+        android:text="@string/time_button"
+        android:onClick="onTimeButtonClick"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/metric_button"
+        android:id="@+id/button"
+        android:layout_below="@+id/main_force_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onMetricButtonClick"
+        />
+
+
+</RelativeLayout>
