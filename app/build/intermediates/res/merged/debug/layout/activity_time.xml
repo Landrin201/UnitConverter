@@ -1,0 +1,83 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
+    android:layout_height="fill_parent" android:layout_width="fill_parent" android:fillViewport="true" android:scrollbars="vertical">
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.kuniansky.marc.unitconverter.TimeActivitty">
+
+    <TextView
+        android:id="@+id/time_instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/from"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/time_unit_spinner1"
+        android:layout_toStartOf="@+id/time_unit_spinner1"
+        android:layout_marginTop="37dp" />
+
+    <EditText
+        android:id="@+id/time_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/time_instructions"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:inputType="numberDecimal"
+        android:hint="@string/tftext"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_unit_spinner1"
+        android:layout_alignTop="@id/time_input"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@id/time_input"
+        android:layout_toEndOf="@id/time_input"
+        android:prompt="@string/prompt"/>
+
+    <Button
+        android:id="@+id/time_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time_input"
+        android:text="@string/submit"
+        android:onClick="convertTime"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Enter a number above"
+        android:id="@+id/time_textView2"
+        android:layout_marginTop="120dp"
+        android:layout_below="@+id/time_submit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_unit_spinner2"
+        android:layout_alignTop="@+id/time_textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/time_instructions"
+        android:layout_toEndOf="@+id/time_instructions" />
+
+</RelativeLayout>
+
+    </ScrollView>
+<!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/layout/activity_time.xml -->

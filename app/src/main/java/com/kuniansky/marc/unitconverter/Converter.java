@@ -1,5 +1,6 @@
 package com.kuniansky.marc.unitconverter;
 import java.math.*;
+
 /*
  * Modifications:
  * 9/18/2015 by Marc Kuniansky, Created the class and implemented the lengthConvert method.
@@ -49,475 +50,300 @@ public class Converter
 
         //Now there is a series of if statements to check which units are being converted from/to and
         //to do the proper operation
-
-        if(original.equals("inches")) { //Begin converting from inches
-            //First, what happens if the user sets both inputs to inches?
-            if(newU.equals("inches")) { //Begin converting from inches to inches- nothing change
-                num2 = originalNum;
-            } //End converting from inches to inches
-
-            //Next, inches to feet
-            else if(newU.equals("feet")) { //Begin converting from inches to feet
-                //12 inches in a foot, so divide by 12
-                num2 = num1 / 12.0d;
-            } //End converting from inches to feet
-
-            //Next, inches to yards
-            else if(newU.equals("yards")) { //Begin converting from inches to yards
-                //36 inches in a yard, so divide by 36
-                num2 = num1 / 36.0d;
-            } //End converting from inches to yards
-
-            //Next, inches to miles
-            else if(newU.equals("miles")) { //Begin converting from inches to miles
-                //63,360 inches in a mile
-                num2 = num1 / 63360.0d;
-            } //End converting from inches to miles
-
-            //Next, inches to millimeters
-            else if(newU.equals("millimeters")) { //Begin converting from inches to millimeters
-                //There are 25.4 millimeters in an inch, so multiply inches by 25.4
-                num2 = num1 * 25.4d;
-            } //End converting from inches to millimeters
-
-            //Next, inches to centimeters
-            else if(newU.contains("centi")) { //Begin converting from inches to centimeters
-                //2.54cm in an inch, multiply inches by 2.54
-                num2 = num1 * 2.54d;
-            } //End converting from inches to centimeters
-
-            //Next, inches to meters
-            else if(newU.equals("meters")) { //Begin converting from inches to meters
-                //0.0254 meters to an inch, so multiply inches by 0.0254
-                num2 = num1 * 0.0254d;
-            } //End converting from inches to meters
-
-            //Finally, if none of the others are true then convert inches to kilometers
-            else { //Begin converting from inches to kilometers
-                //0.0000254km in an inch
-                num2 = num1 * 0.0000254d;
-            } //End converting from inches to kilometers
-        } //End converting from inches
-
-        //Next, converting from feet
-        else if(original.equals("feet"))
-        { //Begin conversions from feet
-            //First, what happens if the user converts feet to feet? Nothing.
-            if(newU.equals("feet"))
-            { //Begin converting feet to feet
-                num2 = num1;
-            } //End converting feet to feet
-
-            //Next, how should we convert feet to other empirical units?
-            //Feet to inches.
-            else if(newU.equals("inches"))
-            { //Begin converting feet to inches
-                //12 inches in a foot, multiply by 12
-                num2 = num1*12.0d;
-            } //End converting feet to inches
-
-            //Feet to yards
-            else if(newU.equals("yards"))
-            { //Begin feet to yards
-                //3 feet in a yard
-                num2 = num1/3.0d;
-            } //End feet to yards
-
-            //Feet to miles
-            else if(newU.equals("miles"))
-            { //Begin converting feet to miles
-                //5,280 feet in a mile
-                num2 = num1/5280.0d;
-            } //End converting feet to miles
-
-            //Now convert to metric units
-
-            //Feet to millimeters
-            else if(newU.equals("millimeters"))
-            { //Begin converting feet to millimeters
-                //304.8 millimeters in a foot
-                num2 = num1*304.8d;
-            } //End converting feet to millimeters
-
-            //Feet to centimeters
-            else if(newU.equals("centimeters"))
-            { //Begin converting from feet to centimeters
-                //30.48 Centimeters in a foot
-                num2 = num1*30.48d;
-            } //End converting from feet to centimeters
-
-            //Feet to meters
-            else if(newU.equals("meters"))
-            { //Begin converting from feet to meters
-                //0.3048 meters in a foot
-                num2 = num1*0.3048d;
-            } //End converting from feet to meters
-
-            //Feet to kilometers
-            else
-            { //Begin converting from feet to kilometers
-                //0.0003048 kilometers in a meter
-                num2 = num1*0.0003048d;
-            } //End converting from feet to kilometers
-        } //End conversions from feet
-
-        //Next, conversions from yards
-        else if(original.equals("yards"))
-        { //Begin conversions from yards
-
-            //Yards to yards
-            if(newU.equals("yards"))
-            { //Begin converting from yards to yards
-                num2 = num1;
-            } //End converting from yards to yards
-
-            //First, convert between empircal units
-
-            //Yards to inches
-            else if(newU.equals("inches"))
-            { //Begin converting from yards to inches
-                //36 inches in a yard
-                num2 = num1*36.0d;
-            } //End converting from yards to inches
-
-            //Yards to feet
-            else if(newU.equals("feet"))
-            { //Begin converting from yards to feet
-                //3 feet to a yard
-                num2 = num1*3.0d;
-            } //End converting from yards to feet
-
-            //Yards to miles
-            else if(newU.equals("miles"))
-            { //Begin converting from yards to miles
-                //1760 yards in a mile
-                num2 = num1/1760.0d;
-            } //End converting from yards to miles
-
-            //Now metric units
-
-            //Yards to millimeters
-            else if(newU.equals("millimeters"))
-            { //Begin converting yards to millimeters
-                //914.4 millimeters in a yard
-                num2 = num1*914.4d;
-            } //End converting yards to millimeters
-
-            //Yards to centimeters
-            else if(newU.equals("centimeters"))
-            { //Begin converting yards to centimeters
-                //91.44 centimeters in a yard
-                num2 = num1*91.44d;
-            } //End converting yards to centimeters
-
-            //Yards to meters
-            else if(newU.equals("meters"))
-            { //Begin conversion from yards to meters
-                num2 = num1*0.9144d;
-            } //End conversion from yards to meters
-
-            //Yards to kilometers
-            else
-            { //Begin conversion from yards to kilometers
-                //1,093.61 yards in a kilometer
-                num2 = num1/1093.61d;
-            } //End conversion from yards to kilometers
-        } //End conversions from yards
-
-        //Next, convert from miles
-        else if(original.equals("miles"))
-        { //Begin conversions from miles
-            //First, miles to miles
-            if(newU.equals("miles"))
-            { //Begin converting from miles to miles
-                num2 = num1;
-            } //End converting from miles to miles
-
-            //Now, convert to the rest of the empirical units
-            //Miles to inches
-            else if(newU.equals("inches"))
-            { //Begin converting from miles to inches
-                //6330 inches in a mile
-                num2 = num1*6330.0d;
-            } //End converting from miles to inches
-
-            //Miles to feet
-            else if(newU.equals("feet"))
-            { //Begin converting from miles to feet
-                //5280 feet in a mile
-                num2 = num1*5280.0d;
-            } //End converting from miles to feet
-
-            //Miles to yards
-            else if(newU.equals("yards"))
-            { //Begin converting from miles to yards
-                //1760 yards in a mile
-                num2 = num1*1760.0d;
-            } //End converting from miles to yards
-
-            //Now do the metric conversions
-
-            //Miles to millimeters
-            else if(newU.equals("millimeters"))
-            { //Begin converting from miles to millimeters
-                //1,609,000 millimeters in a mile
-                num2 = num1*1609340.0d;
-            } //End converting from miles to millimeters
-
-            //Miles to centimeters
-            else if(newU.equals("centimeters"))
-            { //Begin converting from miles to centimeters
-                //16,0934 centemeters in a miles
-                num2 = num1*160934.0d;
-            } //End converting from miles to centimeters
-
-            //Miles to meters
-            else if(newU.equals("meters"))
-            { //Begin converting from miles to meters
-                //1609.34 meters in a mile
-                num2 = num1*1609.34d;
-            } //End converting from miles to meters
-
-            //Miles to kilometers
-            else
-            { //Begin converting miles to kilometers
-                //1.60934 kilometers in a mile
-                num2 = num1*1.60934d;
-            } //End converting miles to kilometers
-        } //End conversions from miles
-
-        //Next, convert from millimeters
-        else if(original.equals("millimeters"))
-        { //Begin converting from millimeters
-
-            //Millimeters to millimeters
-            if(newU.equals("millimeters"))
-            { //Begin converting from millimeters to millimeters
-                num2 = num1;
-            } //End converting from millimeters to millimeters
-
-            //Emperical units first
-
-            //Millimeters to inches
-            else if(newU.equals("inches"))
-            { //Begin converting from millimeters to inches
-                num2 = num1*25.4d;
-            } //End converting from millimeters to inches
-
-            //Millimeters to feet
-            else if(newU.equals("feet"))
-            { //Begin converting from millimeters to feet
-                num2 = num1/304.8d;
-            } //End converting from millimeters to feet
-
-            //Millimeters to yards
-            else if(newU.equals("yards"))
-            { //Begin converting from millimeters to yards
-                num2 = num1/914.4d;
-            } //End converting from millimeters to yards
-
-            //Millimeters to miles
-            else if(newU.equals("miles"))
-            { //Begin converting from millimeters to miles
-                num2 = num1/1609000.0d;
-            } //End converting from millimeters to miles
-
-            //Now metric
-
-            //Millimeters to centimeters
-            else if(newU.equals("centimeters"))
-            { //Begin converting from millimeters to centimeters
-                num2 = num1/10.0d;
-            } //End converting from millimeters to centimeters
-
-            //Millimeters to meters
-            else if(newU.equals("meters"))
-            { //Begin converting from millimeters to meters
-                num2 = num1/1000.0d;
-            } //End converting from millimeters to meters
-
-            //Millimeters to Kilomters
-            else
-            { //Begin converting from millimeters to kilometers
-                num2 = num1/1000000.0d;
-            } //End converting from millimeters to kilometers
-
-        } //End converting from millimeters
-
-        //Next, convert from centimeters
-        else if(original.equals("centimeters"))
-        { //Begin converting from centimeters
-
-            //Centimeters to centimeters
-            if(newU.equals("centimeters"))
-             { //Begin converting from centimeters to centimeters
-                 num2 = num1;
-             } //End converting from centimeters to centimeters
-
-            //Empirical units
-
-            //Centimeters to inches
-            else if(newU.equals("inch"))
-            { //Begin converting from centimeters to inches
-                num2 = num1/2.54d;
-            } //End converting from centimeters to inches
-
-            //Centimeters to feet
-            else if(newU.equals("feet"))
-            { //Begin converting from centimeters to feet
-                num2=num1/30.48d;
-            } //End converting from centimeters to feet
-
-            //Centimeters to yards
-            else if(newU.equals("inch"))
-            { //Begin converting from centimeters to yards
-                num2=num1/91.44d;
-            } //End converting from centimeters to yards
-
-            //Centimeters to miles
-            else if(newU.equals("mile"))
-            { //Begin converting from centimeters to miles
-                num2 = num1/160934.0d;
-            } //End converting from centimeters to miles
-
-            //Metric units
-
-            //Centimeters to millimeters
-            else if(newU.equals("millimeters"))
-            { //Begin converting from centimeters to millimeters
-                num2 = num1*10.0d;
-            } //End converting from centimeters to millimeters
-
-            //Centimeters to meters
-            else if(newU.equals("meters"))
-            { //Begin converting from centimeters to meters
-                num2 = num1/100.0d;
-            } //End converting from centimeters to meters
-
-            //Centimeters to kilometers
-            else
-            { //Begin converting from centimeters to kilometers
-                num2 = num1/100000.0d;
-            } //End converting from centimeters to kilometers
-        } //End converting from centimeters
-
-        //Next, convert from meters
-        else if(original.equals("meters"))
-        { //Begin converting from meters
-
-            //Convert meters to meters
-            if(newU.equals("meters"))
-            { //Begin converting from meters to meters
-                num2 = num1;
-            } //End converting from meters to meters
-
-            //Empirical units
-
-            //Meters to inches
-             else if(newU.equals("inches"))
-             { //Begin converting from meters to inches
-                 num2 = num1*39.3701d;
-             } //End converting from meters to inches
-
-            //Meters to feet
-            else if(newU.equals("feet"))
-            { //Begin converting from meters to feet
-                num2 = num1*3.28084d;
-            } //End converting from meters to feet
-
-            //Meters to yards
-            else if(newU.equals("yards"))
-            { //Begin converting from meters to yards
-                num2 = num1*1.09361d;
-            } //End converting from meters to yards
-
-            //Meters to miles
-            else if(newU.equals("miles"))
-            { //Begin converting from meters to miles
-                num1 = num2/1609.34d;
-            } //End converting from meters to miles
-
-            //Metric units
-
-            //Meters to millimeters
-            else if(newU.equals("millimeters"))
-            { //Begin converting from meters to millimeters
-                num1 = num2*1000.0d;
-            } //End converting from meters to millimeters
-
-            //Meters to centimeters
-            else if(newU.equals("centimeters"))
-            { //Begin converting from meters to centimeters
-                num2 = num1*100.0d;
-            } //End converting from meters to centimeters
-
-            //Meters to kilometers
-            else
-            { //Begin converting from meters to kilometers
-                num2 =num1/1000.0d;
-            } //End converting from meters to kilometers
-        } //End converting from meters
-
-        //Finally, try converting from kilometers
-        else
-        { //Begin converting from kilometers
-
-            //Kilometers to kilometers
-            if(newU.equals("kilometers"))
-            { //Begin converting from kilometers to kilometers
-                num2 = num1;
-            } //End converting from kilometers to kilometers
-
-            //Empirical units
-
-            //Kilometers to inches
-            else if(newU.equals("inches"))
-            { //Begin converting from kilometers to inches
-                num2 = num1*39370.1d;
-            } //End converting from kilometers to inches
-
-            //Kilometers to feet
-            else if(newU.equals("feet"))
-            { //Begin converting from kilometers to feet
-                num2 = num1*3280.84d;
-            } //End converting from kilometers to feet
-
-            //Kilometers to yards
-            else if(newU.equals("yards"))
-            { //Begin converting from kilometers to yards
-                num2 = num1*1093.61d;
-            } //End converting from kilometers to yards
-
-            //Kilometers to miles
-            else if(newU.equals("miles"))
-            { //Begin converting from kilometers to miles
-                num2 = num1/1.60934d;
-            } //End converting from kilometers to miles
-
-            //Metric units
-
-            //Kilometers to millimeters
-            else if(newU.equals("millimeters"))
-            { //Begin converting from kilometers to millimeters
-                num2 = num1*1000000.0d;
-            } //End converting from kilometers to millimeters
-
-            //Kilometers to centimeters
-            else if(newU.equals("centimeters"))
-            { //Begin converting from kilometers to centimeters
-                num2 = num1*100000.0d;
-            } //End converting from kilometers to centimeters
-
-            //Kilometers to meters
-            else
-            { //Begin converting from kilometers to meters
-                num2 = num1*1000.0d;
-            } //End converting from kilometers to meters
-        } //End converting from kilometers
-
-    //num2 is the number we want; return it
-    return num2;
-    } //End lengthConvert
+        switch(original)
+        {
+            case "inches":
+            { //Begin converting from inches
+                switch(newU)
+                {
+                    case "inches":
+                        num2 = num1;
+                        break;
+                    case "feet":
+                        //12 inches in a foot, so divide by 12
+                        num2 = num1 / 12.0d;
+                        break;
+                    case "yards":
+                        //36 inches in a yard, so divide by 36
+                        num2 = num1 / 36.0d;
+                        break;
+                    case "miles":
+                        //63,360 inches in a mile
+                        num2 = num1 / 63360.0d;
+                        break;
+                    case "millimeters":
+                        //There are 25.4 millimeters in an inch, so multiply inches by 25.4
+                        num2 = num1 * 25.4d;
+                        break;
+                    case "centimeters":
+                        //2.54cm in an inch, multiply inches by 2.54
+                        num2 = num1 * 2.54d;
+                        break;
+                    case "meters":
+                        //0.0254 meters to an inch, so multiply inches by 0.0254
+                        num2 = num1 * 0.0254d;
+                        break;
+                    case "kilometers":
+                        //0.0000254km in an inch
+                        num2 = num1 * 0.0000254d;
+                        break;
+                }
+                break;
+            } //End converting from inches
+
+            //Next, converting from feet
+            case "feet":
+            { //Begin conversions from feet
+                switch(newU)
+                {
+                    case "inches":
+                        //12 inches in a foot, multiply by 12
+                        num2 = num1*12.0d;
+                        break;
+                    case "feet":
+                        num2 = num1;
+                        break;
+                    case "yards":
+                        //3 feet in a yard
+                        num2 = num1/3.0d;
+                        break;
+                    case "miles":
+                        //5,280 feet in a mile
+                        num2 = num1/5280.0d;
+                        break;
+                    case "millimeters":
+                        //304.8 millimeters in a foot
+                        num2 = num1*304.8d;
+                        break;
+                    case "centimeters":
+                        //30.48 Centimeters in a foot
+                        num2 = num1*30.48d;
+                        break;
+                    case "meters":
+                        //0.3048 meters in a foot
+                        num2 = num1*0.3048d;
+                        break;
+                    case "kilometers":
+                        //0.0003048 kilometers in a meter
+                        num2 = num1*0.0003048d;
+                        break;
+                }
+                break;
+            } //End conversions from feet
+
+            //Next, conversions from yards
+            case "yards":
+            { //Begin conversions from yards
+                switch(newU) {
+                    case "inches":
+                        //36 inches in a yard
+                        num2 = num1 * 36.0d;
+                        break;
+                    case "feet":
+                        //3 feet to a yard
+                        num2 = num1 * 3.0d;
+                        break;
+                    case "yards":
+                        num2 = num1;
+                        break;
+                    case "miles":
+                        //1760 yards in a mile
+                        num2 = num1 / 1760.0d;
+                        break;
+                    case "millimeters":
+                        //914.4 millimeters in a yard
+                        num2 = num1 * 914.4d;
+                        break;
+                    case "centimeters":
+                        //91.44 centimeters in a yard
+                        num2 = num1*91.44d;
+                        break;
+                    case "meters":
+                        num2 = num1*0.9144d;
+                        break;
+                    case "kilometers":
+                        //1,093.61 yards in a kilometer
+                        num2 = num1/1093.61d;
+                        break;
+                }
+                break;
+            } //End conversions from yards
+
+            //Next, convert from miles
+            case "miles":
+            { //Begin conversions from miles
+                switch(newU)
+                {
+                    case "inches":
+                        //6330 inches in a mile
+                        num2 = num1*6330.0d;
+                        break;
+                    case "feet":
+                        //5280 feet in a mile
+                        num2 = num1*5280.0d;
+                        break;
+                    case "yards":
+                        //1760 yards in a mile
+                        num2 = num1*1760.0d;
+                        break;
+                    case "miles":
+                        num2 = num1;
+                        break;
+                    case "millimeters":
+                        //1,609,000 millimeters in a mile
+                        num2 = num1*1609340.0d;
+                        break;
+                    case "centimeters":
+                        //16,0934 centimeters in a miles
+                        num2 = num1*160934.0d;
+                        break;
+                    case "meters":
+                        //1609.34 meters in a mile
+                        num2 = num1*1609.34d;
+                        break;
+                    case "kilometers":
+                        //1.60934 kilometers in a mile
+                        num2 = num1*1.60934d;
+                        break;
+                }
+                break;
+            } //End converting from miles
+
+            //Next, convert from millimeters
+            case "millimeters":
+            { //Begin converting from millimeters
+                switch(newU)
+                {
+                    case "inches":
+                        num2 = num1*25.4d;
+                        break;
+                    case "feet":
+                        num2 = num1/304.8d;
+                        break;
+                    case "yards":
+                        num2 = num1/914.4d;
+                        break;
+                    case "miles":
+                        num2 = num1/1609000.0d;
+                        break;
+                    case "millimeters":
+                        num2 = num1;
+                        break;
+                    case "centimeters":
+                        num2 = metricConvert(num1, "milli", "centi");
+                        break;
+                    case "meters":
+                        num2 = metricConvert(num1, "milli", "unit");
+                        break;
+                    case "kilometers":
+                        num2 = metricConvert(num1, "milli", "kilo");
+                        break;
+                }
+                break;
+            } //End converting from millimeters
+
+            //Next, convert from centimeters
+            case "centimeters":
+            { //Begin converting from centimeters
+                switch(newU)
+                {
+                    case "inches":
+                        num2 = num1 / 2.54d;
+                        break;
+                    case "feet":
+                        num2 = num1 / 30.48d;
+                        break;
+                    case "yards":
+                        num2 = num1 / 91.44d;
+                        break;
+                    case "miles":
+                        num2 = num1/160934.0d;
+                        break;
+                    case "millimeters":
+                        num2 = metricConvert(num1, "centi", "milli");
+                        break;
+                    case "centimeters":
+                        num2 = num1;
+                        break;
+                    case "meters":
+                        num2 = metricConvert(num1, "centi", "unit");
+                        break;
+                    case "kilometers":
+                        num2 = metricConvert(num1, "centi", "kilo");
+                        break;
+                }
+                break;
+            } //End converting from centimeters
+
+            //Next, convert from meters
+            case "meters":
+            { //Begin converting from meters
+                switch(newU) {
+                    case "inches":
+                        num2 = num1 * 39.3701d;
+                        break;
+                    case "feet":
+                        num2 = num1 * 3.28084d;
+                        break;
+                    case "yards":
+                        num2 = num1*1.09361d;
+                        break;
+                    case "miles":
+                        num2 = num1/1609.34d;
+                        break;
+                    case "millimeters":
+                        num2 = metricConvert(num1, "unit", "milli");
+                        break;
+                    case "centimeters":
+                        num2 = metricConvert(num1, "unit", "centi");
+                        break;
+                    case "meters":
+                        num2 = num1;
+                        break;
+                    case "kilometers":
+                        num2 = this.metricConvert(num1, "unit", "kilo");
+                        break;
+                }
+                break;
+            } //End converting from meters
+
+            //Finally, try converting from kilometers
+            case "kilometers":
+            { //Begin converting from kilometers
+                switch(newU)
+                {
+                    case "inches":
+                        num2 = num1*39370.1d;
+                        break;
+                    case "feet":
+                        num2 = num1*3280.84d;
+                        break;
+                    case "yards":
+                        num2 = num1*1093.61d;
+                        break;
+                    case "miles":
+                        num2 = num1/1.60934d;
+                        break;
+                    case "millimeters":
+                        num2 = metricConvert(num1, "kilo", "milli");
+                        break;
+                    case "centimeters":
+                        num2 = metricConvert(num1, "kilo", "centi");
+                        break;
+                    case "meters":
+                        num2 = metricConvert(num1, "kilo", "unit");
+                        break;
+                    case "kilometers":
+                        num2 = num1;
+                        break;
+                }
+                break;
+            } //End converting from kilometers
+        }
+
+        //num2 is the number we want; return it
+        return num2;
+    } // End lengthConvert
 
     /**
      * Takes a number, a temperature unit, and a new unit and converts the number to the new unit.
@@ -529,61 +355,73 @@ public class Converter
      * @param desiredUnit must be a string
      * @return the new double
      */
-    public double tempConvert(double originalNum, String originalUnit, String desiredUnit){
+    public double tempConvert(double originalNum, String originalUnit, String desiredUnit)
+    { //Begin tempConvert
         //Make two variable doubles, one the original double and one the new one
-        double num1 = originalNum;
         double num2 = 0.0d;
-        double num3 = 0.0d;
+        double num3;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
         String original = originalUnit.toLowerCase();
         String newU = desiredUnit.toLowerCase();
 
+        switch(original)
+        { //Begin conversion table
+            case "celsius":
+            { //Begin converting from Celsius
+                switch(newU)
+                {
+                    case "celsius":
+                        num2 = originalNum;
+                        break;
+                    case "fahrenheit":
+                        num2 = (originalNum*(9.0/5.0)) + 32d;
+                        break;
+                    case "kelvin":
+                        num2 = originalNum + 273.15d;
+                        break;
+                }
+                break;
+            } //end converting from Celsius
+            case "fahrenheit":
+            { //Begin converting from Fahrenheit
+                switch(newU)
+                {
+                    case "celsius":
+                        num3 = (-originalNum - 32d);
+                        num2 = num3 * (5.0/9.0);
+                        break;
+                    case "fahrenheit":
+                        num2 = originalNum;
+                        break;
+                    case "kelvin":
+                        num2 = ((originalNum - 32d)*(5.0/9.0)) + 273.15d;
+                        break;
+                }
+                break;
+            } //End converting from Fahrenheit
+            case "kelvin":
+            { //Begin converting from Kelvin
+                switch(newU)
+                {
+                    case "celsius":
+                        num2 = originalNum - 273.15d;
+                        break;
+                    case "fahrenheit":
+                        num2 = ((originalNum - 273.15d) *(9.0/5.0)) + 32d;
+                        break;
+                    case "kelvin":
+                        num2 = originalNum;
+                        break;
+                }
+                break;
+            }
+        } //End conversion table
 
-        if(original.equals("celsius")){
-            if(newU.equals("celsius")){
-                num2 = originalNum;
-            }
-            else if(newU.equals("fahrenheit")){
-                num2 = (originalNum * 1.8d) + 32d;
-            }
-            else{
-                num2 = originalNum + 273.15d;
-            }
-        }
-
-        else if(original.equals("fahrenheit")){
-            if(newU.equals("fahrenheit")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("celsius")){
-                num3 = (-originalNum - 32d);
-                num2 = num3 * (5.0/9.0);
-            }
-
-            else{
-                num2 = (originalNum - 32d) * (5.0/9.0) + 273.15d;
-            }
-        }
-
-        else{
-            if(newU.equals("kelvin")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("celsius")){
-                num2 = originalNum - 273.15d;
-            }
-
-            else{
-                num2 = ((originalNum - 273.15d) * 1.8d) + 32d;
-            }
-        }
-
+        //Return the final number, num2
         return num2;
-    }
+    } //End tempConvert
 
     /**
      * Takes a number, a volume unit, and a new unit and converts the number to the new unit.
@@ -596,230 +434,212 @@ public class Converter
      * @param desiredUnit must be a string
      * @return the new double
      */
-    public double volumeConvert(double originalNum, String originalUnit, String desiredUnit){
+    public double volumeConvert(double originalNum, String originalUnit, String desiredUnit)
+    { //Begin volumeConvert
+
         //Make two variable doubles, one the original double and one the new one
         double num1 = originalNum;
         double num2 = 0.0d;
-        double num3 = 0.0d;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
         String original = originalUnit.toLowerCase();
         String newU = desiredUnit.toLowerCase();
 
+        switch(original)
+        { //Begin conversion table
+            case "milliliter":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = num1;
+                        break;
+                    case "liter":
+                        num2 = metricConvert(num1, "milli", "unit");
+                        break;
+                    case "kiloliter":
+                        num2 = metricConvert(num1, "milli", "kilo");
+                        break;
+                    case "pint":
+                        num2 = originalNum * .00211338d;
+                        break;
+                    case "quart":
+                        num2 = originalNum * .00105669d;
+                        break;
+                    case "gallon":
+                        num2 = originalNum * .000264172d;
+                        break;
+                    case "cup":
+                        num2 = originalNum * .00422675d;
+                        break;
+                }
+                break;
 
-        if(original.equals("milliliter")){
-            if(newU.equals("milliliter")){
-                num2 = originalNum;
-            }
+            case "liter":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = metricConvert(num1, "unit", "milli");
+                        break;
+                    case "liter":
+                        num2 = num1;
+                        break;
+                    case "kiloliter":
+                        num2 = metricConvert(num1, "unit", "kilo");
+                        break;
+                    case "pint":
+                        num2 = originalNum * 2.11338d;
+                        break;
+                    case "quart":
+                        num2 = originalNum * 1.05669d;
+                        break;
+                    case "gallon":
+                        num2 = originalNum * 0.264172d;
+                        break;
+                    case "cup":
+                        num2 = originalNum * 4.22675d;
+                        break;
+                }
+                break;
 
-            else if(newU.equals("liter")){
-                num2 = originalNum * .001d;
-            }
+            case "kiloliter":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = metricConvert(num1, "kilo", "milli");
+                        break;
+                    case "liter":
+                        num2 = metricConvert(num1, "kilo", "unit");
+                        break;
+                    case "kiloliter":
+                        num2 = num1;
+                        break;
+                    case "pint":
+                        num2 = originalNum * 2113.38d;
+                        break;
+                    case "quart":
+                        num2 = originalNum * 1056.69d;
+                        break;
+                    case "gallon":
+                        num2 = originalNum * 264.172d;
+                        break;
+                    case "cup":
+                        num2 = originalNum * 4226.75d;
+                        break;
+                }
+                break;
 
-            else if(newU.equals("kiloliter")){
-                num2 = originalNum * .000001d;
-            }
+            case "pint":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = originalNum * 473.176d;
+                        break;
+                    case "liter":
+                        num2 = originalNum * 0.473176d;
+                        break;
+                    case "kiloliter":
+                        num2 = originalNum * .00047176d;
+                        break;
+                    case "pint":
+                        num2 = num1;
+                        break;
+                    case "quart":
+                        num2 = originalNum * .5d;
+                        break;
+                    case "gallon":
+                        num2 = originalNum * .125d;
+                        break;
+                    case "cup":
+                        num2 = originalNum * 2.0d;
+                        break;
+                }
+                break;
 
-            else if(newU.equals("pint")){
-                num2 = originalNum * .00211338d;
-            }
+            case "quart":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = originalNum * 946.353d;
+                        break;
+                    case "liter":
+                        num2 = originalNum * 0.946353d;
+                        break;
+                    case "kiloliter":
+                        num2 = originalNum * .000946353d;
+                        break;
+                    case "pint":
+                        num2 = originalNum * 2.0d;
+                        break;
+                    case "quart":
+                        num2 = num1;
+                        break;
+                    case "gallon":
+                        num2 = originalNum * .25d;
+                        break;
+                    case "cup":
+                        num2 = originalNum * 4.0d;
+                        break;
+                }
+                break;
 
-            else if(newU.equals("quart")){
-                num2 = originalNum * .00105669d;
-            }
+            case "gallon":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = originalNum * 3785.41d;
+                        break;
+                    case "liter":
+                        num2 = originalNum * 3.78541d;
+                        break;
+                    case "kiloliter":
+                        num2 = originalNum * .00378541d;
+                        break;
+                    case "pint":
+                        num2 = originalNum * 8.0d;
+                        break;
+                    case "quart":
+                        num2 = originalNum * 4.0d;
+                        break;
+                    case "gallon":
+                        num2 = num1;
+                        break;
+                    case "cup":
+                        num2 = originalNum * 16.0d;
+                        break;
+                }
+                break;
 
-            else if(newU.equals("gallon")){
-                num2 = originalNum * .000264172d;
-            }
-
-            else{
-                num2 = originalNum * .00422675d;
-            }
-        }
-
-        else if(original.equals("liter")){
-            if(newU.equals("liter")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("mililiter")){
-                num2 = originalNum * 1000d;
-            }
-
-            else if(newU.equals("kiloliter")){
-                num2 = originalNum * .001d;
-            }
-
-            else if(newU.equals("pint")){
-                num2 = originalNum * 2.11338d;
-            }
-
-            else if(newU.equals("quart")){
-                num2 = originalNum * 1.05669d;
-            }
-
-            else if(newU.equals("gallon")){
-                num2 = originalNum * 0.264172d;
-            }
-
-            else{
-                num2 = originalNum * 4.22675d;
-            }
-        }
-
-        else if(original.equals("kiloliter")){
-            if(newU.equals("kiloliter")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("mililiter")){
-                num2 = originalNum * 1000000.0d;
-            }
-
-            else if(newU.equals("liter")){
-                num2 = originalNum * 1000.0d;
-            }
-
-            else if(newU.equals("pint")){
-                num2 = originalNum * 2113.38d;
-            }
-
-            else if(newU.equals("quart")){
-                num2 = originalNum * 1056.69d;
-            }
-
-            else if(newU.equals("gallon")){
-                num2 = originalNum * 264.172d;
-            }
-
-            else{
-                num2 = originalNum * 4226.75d;
-            }
-        }
-
-        else if(original.equals("pint")){
-            if(newU.equals("pint")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("mililiter")){
-                num2 = originalNum * 473.176d;
-            }
-
-            else if(newU.equals("liter")){
-                num2 = originalNum * 0.473176d;
-            }
-
-            else if(newU.equals("kiloliter")){
-                num2 = originalNum * .00047176d;
-            }
-
-            else if(newU.equals("quart")){
-                num2 = originalNum * .5d;
-            }
-
-            else if(newU.equals("gallon")){
-                num2 = originalNum * .125d;
-            }
-
-            else{
-                num2 = originalNum * 2d;
-            }
-        }
-
-        else if(original.equals("quart")){
-            if(newU.equals("quart")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("mililiter")){
-                num2 = originalNum * 946.353d;
-            }
-
-            else if(newU.equals("liter")){
-                num2 = originalNum * 0.946353d;
-            }
-
-            else if(newU.equals("kiloliter")){
-                num2 = originalNum * .000946353d;
-            }
-
-            else if(newU.equals("pint")){
-                num2 = originalNum * 2.0d;
-            }
-
-            else if(newU.equals("gallon")){
-                num2 = originalNum * .25d;
-            }
-
-            else{
-                num2 = originalNum * 4.0d;
-            }
-        }
-
-        else if(original.equals("gallon")){
-            if(newU.equals("gallon")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("mililiter")){
-                num2 = originalNum * 3785.41d;
-            }
-
-            else if(newU.equals("liter")){
-                num2 = originalNum * 3.78541d;
-            }
-
-            else if(newU.equals("kiloliter")){
-                num2 = originalNum * .00378541d;
-            }
-
-            else if(newU.equals("pint")){
-                num2 = originalNum * 8.0d;
-            }
-
-            else if(newU.equals("quart")){
-                num2 = originalNum * 4.0d;
-            }
-
-            else{
-                num2 = originalNum * 16.0d;
-            }
-        }
-
-        else{
-            if(newU.equals("cup")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("mililiter")){
-                num2 = originalNum * 236.588d;
-            }
-
-            else if(newU.equals("liter")){
-                num2 = originalNum * 0.236588d;
-            }
-
-            else if(newU.equals("kiloliter")){
-                num2 = originalNum * .000236588d;
-            }
-
-            else if(newU.equals("pint")){
-                num2 = originalNum * .5d;
-            }
-
-            else if(newU.equals("quart")){
-                num2 = originalNum * .25d;
-            }
-
-            else{
-                num2 = originalNum * .0625d;
-            }
-        }
-
+            case "cup":
+                switch(newU)
+                {
+                    case "milliliter":
+                        num2 = originalNum * 236.588d;
+                        break;
+                    case "liter":
+                        num2 = originalNum * 0.236588d;
+                        break;
+                    case "kiloliter":
+                        num2 = originalNum * .000236588d;
+                        break;
+                    case "pint":
+                        num2 = originalNum * .5d;
+                        break;
+                    case "quart":
+                        num2 = originalNum * .25d;
+                        break;
+                    case "gallon":
+                        num2 = originalNum * .0625d;
+                        break;
+                    case "cup":
+                        num2 = originalNum;
+                        break;
+                }
+                break;
+        } //End conversion table
+        //Return the final number, num2
         return num2;
-    }
+    } //End volume convert
 
     /**
      * Takes a number, a mass unit, and a new unit and converts the number to the new unit.
@@ -831,7 +651,8 @@ public class Converter
      * @param desiredUnit must be a string
      * @return the new double
      */
-    public double massConvert(double originalNum, String originalUnit, String desiredUnit){
+    public double massConvert(double originalNum, String originalUnit, String desiredUnit)
+    { //Begin massConvert
         //Make two variable doubles, one the original double and one the new one
         double num1 = originalNum;
         double num2 = 0.0d;
@@ -842,81 +663,81 @@ public class Converter
         String original = originalUnit.toLowerCase();
         String newU = desiredUnit.toLowerCase();
 
+        switch(original)
+        { //Begin conversion table
+            case "pounds":
+                switch(newU)
+                {
+                    case "pounds":
+                        num2 = originalNum;
+                        break;
+                    case "kilograms":
+                        num2 = originalNum * 0.453592d;
+                        break;
+                    case "grams":
+                        num2 = originalNum * 453.592d;
+                        break;
+                    case "milligrams":
+                        num2 = originalNum * 453592.0d;
+                        break;
+                }
+                break;
+            case "kilograms":
+                switch(newU)
+                {
+                    case "pounds":
+                        num2 = originalNum * 2.20462d;
+                        break;
+                    case "kilograms":
+                        num2 = originalNum;
+                        break;
+                    case "grams":
+                        num2 = metricConvert(num1, "kilo", "unit");
+                        break;
+                    case "milligrams":
+                        num2 = metricConvert(num1, "kilo", "milli");
+                        break;
+                }
+                break;
+            case "grams":
+                switch(newU)
+                {
+                    case "pounds":
+                        num2 = originalNum * 2.20462d;
+                        break;
+                    case "kilograms":
+                        num2 = metricConvert(num1, "unit", "kilo");
+                        break;
+                    case "grams":
+                        num2 = originalNum;
+                        break;
+                    case "milligrams":
+                        num2 = metricConvert(num1, "unit", "milli");
+                        break;
+                }
+                break;
+            case "milligrams":
+                switch(newU)
+                {
+                    case "pounds":
+                        num2 = originalNum * .0000022046d;
+                        break;
+                    case "kilograms":
+                        num2 = metricConvert(num1, "milli", "kilo");
+                        break;
+                    case "grams":
+                        num2 = metricConvert(num1, "milli", "unit");
+                        break;
+                    case "milligrams":
+                        num2 = originalNum;
+                        break;
+                }
+                break;
+        } //End conversion table
 
-        if(original.equals("pounds")){
-            if(newU.equals("pounds")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("kilograms")){
-                num2 = originalNum * 0.453592d;
-            }
-
-            else if(newU.equals("grams")){
-                num2 = originalNum * 453.592d;
-            }
-
-            else{
-                num2 = originalNum * 453592.0d;
-            }
-        }
-
-        else if(original.equals("kilograms")){
-            if(newU.equals("kilograms")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("pounds")){
-                num2 = originalNum * 2.20462d;
-            }
-
-            else if(newU.equals("grams")){
-                num2 = originalNum * 1000.0d;
-            }
-
-            else{
-                num2 = originalNum * 1000000.0d;
-            }
-        }
-
-        else if(original.equals("grams")){
-            if(newU.equals("grams")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("pounds")){
-                num2 = originalNum * 2.20462d;
-            }
-
-            else if(newU.equals("kilograms")){
-                num2 = originalNum * .001d;
-            }
-
-            else{
-                num2 = originalNum * 1000d;
-            }
-        }
-
-        else{
-            if(newU.equals("milligrams")){
-                num2 = originalNum;
-            }
-
-            else if(newU.equals("pounds")){
-                num2 = originalNum * .0000022046d;
-            }
-
-            else if(newU.equals("grams")){
-                num2 = originalNum * .001d;
-            }
-
-            else{
-                num2 = originalNum * .000001d;
-            }
-        }
-
+        //Return the final number
         return num2;
-    }
+    } //End massConvert
 
     /**
      * Takes a number, a pressure unit, and a new unit and converts the number to the new unit.
@@ -930,7 +751,6 @@ public class Converter
      */
     public double pressureConvert(double originalNum, String originalUnit, String desiredUnit){
         //Make two variable doubles, one the original double and one the new one
-        double num1 = originalNum;
         double num2 = 0.0d;
 
 
@@ -1263,33 +1083,28 @@ public class Converter
         String originalU = originalUnit.toLowerCase();
         String newU = newUnit.toLowerCase();
 
-        //The series of if statements below figures out what unit to convert from/to, and does so.
-
-        //Convert from pound force
-        if(originalU.contains("pound"))
+        //The series of switch statements below figures out what unit to convert from/to, and does so.
+        switch(originalU)
         {
-            switch(newU)
-            {
-                case "pound force":
-                    num2 = num1;
-                    break;
-                case "newtons":
-                    num2 = num1*4.448222d;
-                    break;
+            case "pound force":
+                switch(newU)
+                {
+                    case "pound force":
+                        num2 = num1;
+                        break;
+                     case "newtons":
+                         num2 = num1*4.448222d;
+                         break;
             }
-        }
-
-        //Convert from Newtons
-        else
-        {
-            switch(newU)
-            {
-                case "newtons":
-                    num1 = num2;
-                    break;
-                case "pound force":
-                    num1=num2/4.448222d;
-                    break;
+                break;
+            case "newtons":
+                switch (newU) {
+                     case "newtons":
+                         num2 = num1;
+                         break;
+                     case "pound force":
+                         num2 = num1 / 4.448222d;
+                         break;
             }
         }
         return num2;
@@ -1319,198 +1134,109 @@ public class Converter
 
         //The series of if statements below figures out what unit to convert from/to, and does so.
 
-        //first, convert from miles per hour
-        if(originalU.contains("miles"))
-        { //Begin converting from Miles per Hour
-
-            //First, convert to miles per hour
-            if(newU.contains("miles"))
-            {
-                num2 = num1;
-            }
-
-            //Convert to feet per second
-            else if(newU.contains("feet"))
-            {
-                num2 = num1*1.46667d;
-            }
-
-            //Convert to kilometers per...
-            else if(newU.contains("kilo"))
-            {
-                //Convert to kilometers per second
-                if(originalU.contains("Second"))
-                {
-                    num2 = num1*0.00044704d;
-                }
-                //Convert to kilometers per hour
-                else
-                {
-                    num2 = num1*1.60934d;
-                }
-            }
-
-            //Convert to meters per second
-            else
-            {
-                num2 = num1*0.44704d;
-            }
-        } //End converting from miles per hour
-
-        //Next, convert from feet per second
-        else if(originalU.contains("feet"))
-        { //Begin converting from feet per second
-            //First, convert to feet per second
-            if(newU.contains("feet"))
-            {
-                num2 = num1;
-            }
-
-            //Convert to miles per hour
-            else if(newU.contains("miles"))
-            {
-                num2 = num1*0.681818d;
-            }
-
-            //Convert to kilometers per...
-            else if(newU.contains("kilo"))
-            {
-                //Convert to kilometers per second
-                if(newU.contains("second"))
-                {
-                    num2 = num1*0.0003048d;
-                }
-
-                //Convert to kilometers per hour
-                else
-                {
-                    num2 = num1*1.09728d;
-                }
-            }
-
-            //Convert to meters per second
-            else
-            {
-                num2 = num1*0.3048d;
-            }
-        } //End converting from feet per second
-
-        //Next convert from kilometers per...
-        else if(originalU.contains("kilo"))
-        { //Begin converting from kilometers per...
-
-            //Kilometers per second is a very useful unit to know for orbital mechanics.
-            if(originalU.contains("second"))
-            { //Begin converting from kilometers per second
-                //First, convert to kilometers per...
-                if(newU.contains("kilo"))
-                {
-                    //Convert to kilometers per second
-                    if(newU.contains("second"))
-                    {
-                        num2 = num1;
-                    }
-
-                    //Convert to kilometers per hour
-                    else
-                    {
+        switch(originalU)
+        { //Begin conversion table
+            case "miles per hour":
+                switch(newU)
+                { //Begin converting from miles per hour
+                    case "miles per hour":
+                        num2 = originalNumber;
+                        break;
+                    case "feet per second":
+                        num2 = num1*1.46667d;
+                        break;
+                    case "kilometers per second":
+                        num2 = num1*0.00044704d;
+                        break;
+                    case "kilometers per hour":
+                        num2 = num1*1.60934d;
+                        break;
+                    case "meters per second":
+                        num2 = num1*0.44704d;
+                        break;
+                } //End converting from miles per hour
+                break;
+            case "feet per second":
+                switch(newU)
+                { //Begin converting from feet per second
+                    case "miles per hour":
+                        num2 = num1*0.681818d;
+                        break;
+                    case "feet per second":
+                        num2 = originalNumber;
+                        break;
+                    case "kilometers per second":
+                        num2 = num1*0.0003048d;
+                        break;
+                    case "kilometers per hour":
+                        num2 = num1*1.09728d;
+                        break;
+                    case "meters per second":
+                        num2 = num1*0.3048d;
+                        break;
+                } //End converting from feet per second
+                break;
+            case "kilometers per second":
+                switch(newU)
+                { //Begin converting from kilometers per second
+                    case "miles per hour":
+                        num2 = num1*2236.93629d;
+                        break;
+                    case "feet per second":
+                        num2 = num1*3280.8399d;
+                        break;
+                    case "kilometers per second":
+                        num2 = originalNumber;
+                        break;
+                    case "kilometers per hour":
                         num2 = num1*3600.0d;
-                    }
-                }
-
-                //Convert to feet per second
-                else if(newU.contains("feet"))
-                {
-                    num2 = num1*3280.8399d;
-                }
-
-                //Convert to miles per hour
-                else if(newU.contains("miles"))
-                {
-                    num2 = num1*2236.93629d;
-                }
-
-                //Convert to meters per second
-                else
-                {
-                    num2 = num1*1000.0d;
-                }
-            } //End converting from kilometers per second
-
-            else
-            { //Begin converting from kilometers per hour
-                if(newU.contains("kilo"))
-                {
-                    //Convert to kilometers per hour
-                    if(newU.contains("hour"))
-                    {
-                        num2 = num1;
-                    }
-
-                    //Convert to kilometers per second
-                    else
-                    {
+                        break;
+                    case "meters per second":
+                        num2 = num1*0.277778d;
+                        break;
+                } //End converting from kilometers per second
+                break;
+            case "kilometers per hour":
+                switch(newU)
+                { //Begin converting from kilometers per hour
+                    case "miles per hour":
+                        num2 = num1*2.23694d;
+                        break;
+                    case "feet per second":
+                        num2 = num1*0.911344d;
+                        break;
+                    case "kilometers per second":
                         num2 = num1*0.000277777778d;
-                    }
-                }
-
-                //Convert to feet per second
-                else if(newU.contains("feet"))
-                {
-                    num2 = num1*0.911344d;
-                }
-
-                //Convert to miles per hour
-                else if(newU.contains("miles"))
-                {
-                    num2 = num1*0.621371d;
-                }
-
-                //Convert to meters per second
-                else
-                {
-                    num2 = num1*0.277778d;
-                }
-            } //End converting from kilometers per hour
-        } //End converting from kilometers per...
-
-        //Finally, convert from meters per second
-        else
-        { //Begin converting from meters per second
-            //First, convert to kilometers per...
-            if(newU.contains("Kilo"))
-            {
-                //Convert to kilometers per second
-                if(newU.contains("second"))
-                {
-                    num2 = num1*0.001d;
-                }
-
-                //Convert to kilometers per hour
-                else
-                {
-                    num2 = num1*3.6d;
-                }
-            }
-
-            //Convert to feet per second
-            else if(newU.contains("feet"))
-            {
-                num2 = num1*3.28084d;
-            }
-
-            //Convert to miles per hour
-            else if(newU.contains("miles"))
-            {
-                num2 = num1*2.23694d;
-            }
-
-            //Convert to meters per second
-            else
-            {
-                num2 = num1;
-            }
-        } //End converting from meters per second
+                        break;
+                    case "kilometers per hour":
+                        num2 = originalNumber;
+                        break;
+                    case "meters per second":
+                        num2 = num1*0.277778d;
+                        break;
+                } //end converting from kilometers per hour
+                break;
+            case "meters per second":
+                switch(newU)
+                { //Begin converting from meters per second
+                    case "miles per hour":
+                        num2 = num1*2.23694d;
+                        break;
+                    case "feet per second":
+                        num2 = num1*3.28084d;
+                        break;
+                    case "kilometers per second":
+                        num2 = num1*0.001d;
+                        break;
+                    case "kilometers per hour":
+                        num2 = num1*3.6d;
+                        break;
+                    case "meters per second":
+                        num2 = originalNumber;
+                        break;
+                } //End converting from meters per second
+                break;
+        } //End conversion table
 
         //Return the result
         return num2;
@@ -1535,202 +1261,195 @@ public class Converter
 
         //Make two strings, capturing the units fed to the method
         String originalU = originalUnit.toLowerCase();
+        String newU = newUnit.toLowerCase();
 
-        //All of these values are "Square..." and the square part is totally unimportant for us. Throw it out.
-        String substringNewU = new String(newUnit.substring(7));
-        String newU = substringNewU.toLowerCase();
+        switch(originalU)
+        {
+            //Begin unit conversions
+            case "square inches":
+                switch(newU)
+                { //Begin converting from square inches
+                    case "square inches":
+                        num2 = num1;
+                        break;
+                    case "square feet":
+                        num2 = num1/144.0d;
+                        break;
+                    case "square yards":
+                        num2 = num1/1296.0d;
+                        break;
+                    case "square miles":
+                        num2 = num1/4014000000.0d;
+                        break;
+                    case "acres":
+                        num2 = num1/6273000.0d;
+                        break;
+                    case "square kilometers":
+                        num2 = num1/1550000000.0d;
+                        break;
+                    case "square meters":
+                        num2 = num1/1550.0d;
+                        break;
+                } //End converting from square inches
+                break;
+            case "square feet":
+                switch(newU)
+                { //Begin converting from square feet
+                    case "square inches":
+                        num2 = num1*144.0d;
+                        break;
+                    case "square feet":
+                        num2 = num1;
+                        break;
+                    case "square yards":
+                        num2 = num1/9.0d;
+                        break;
+                    case "square miles":
+                        num2 = num1/27880000.0d;
+                        break;
+                    case "acres":
+                        num2 = num1/43560.0d;
+                        break;
+                    case "square kilometers":
+                        num2 = num1/10760000.0d;
+                        break;
+                    case "square meters":
+                        num2 = num1/10.7639d;
+                        break;
+                } //End converting from square feet
+                break;
+            case "square yards":
+                switch(newU)
+                { //Begin converting from square yards
+                    case "square inches":
+                        num2 = num1*1296.0d;
+                        break;
+                    case "square feet":
+                        num2 = num1*9.0d;
+                        break;
+                    case "square yards":
+                        num2 = num1;
+                        break;
+                    case "square miles":
+                        num2 = num1/3098000.0d;
+                        break;
+                    case "acres":
+                        num2 = num1/4840.0d;
+                        break;
+                    case "square kilometers":
+                        num2 = num1/1196000.0d;
+                        break;
+                    case "square meters":
+                        num2 = num1/1.19599d;
+                        break;
+                }//End converting from square yards
+                break;
+            case "square miles":
+                switch(newU)
+                { //Begin converting from square miles
+                    case "square inches":
+                        num2 = num1*4014000000.0d;
+                        break;
+                    case "square feet":
+                        num2 = num1*27880000.0d;
+                        break;
+                    case "square yards":
+                        num2 = num1*3098000.0d;
+                        break;
+                    case "square miles":
+                        num2 = num1;
+                        break;
+                    case "acres":
+                        num2 = num1*640.0d;
+                        break;
+                    case "square kilometers":
+                        num2 = num1*2.58999d;
+                        break;
+                    case "square meters":
+                        num2 = num1*2590000.0d;
+                        break;
+                }//End converting from square miles
+                break;
+            case "acres":
+                switch(newU)
+                {//Begin converting from acres
+                    case "square inches":
+                        num2 = num1*6273000.0d;
+                        break;
+                    case "square feet":
+                        num2 = num1*43560.0d;
+                        break;
+                    case "square yards":
+                        num2 = num1*4840.0d;
+                        break;
+                    case "square miles":
+                        num2 = num1/640.0d;
+                        break;
+                    case "square acres":
+                        num2 = num1;
+                        break;
+                    case "square kilometers":
+                        num2 = num1/247.105d;
+                        break;
+                    case "square meters":
+                        num2 = num1*4046.86d;
+                        break;
+                } //End converting from acres
+                break;
+            case "kilo":
+                switch(newU)
+                { //Begin converting from square kilometers
+                    case "square inches":
+                        num2 = num1*1550000000.0d;
+                        break;
+                    case "square feet":
+                        num2 = num1*10760000.0d;
+                        break;
+                    case "square yards":
+                        num2 = num1*1196000.0d;
+                        break;
+                    case "square miles":
+                        num2 = num1/2.58999d;
+                        break;
+                    case "acres":
+                        num2 = num1;
+                        break;
+                    case "square kilometers":
+                        num2 = num1;
+                        break;
+                    case "square meters":
+                        num2 = num1*1000000.0d;
+                        break;
+                } //End converting from square kilometers
+                break;
+            case "square meters":
+                switch(newU)
+                { //Begin converting from square meters
+                    case "square inches":
+                        num2 = num1*1550.0d;
+                        break;
+                    case "square feet":
+                        num2 = num1*10.7639d;
+                        break;
+                    case "square yards":
+                        num2 = num1*1.19599d;
+                        break;
+                    case "square miles":
+                        num2 = num1/2590000.0d;
+                        break;
+                    case "acres":
+                        num2 = num1/4046.86d;
+                        break;
+                    case "square kilometers":
+                        num2 = num1/1000000.0d;
+                        break;
+                    case "square meters":
+                        num2 = num1;
+                        break;
+                } //End converting from square meters
+        } //End conversion table
 
-        //Begin unit conversions
-        if(originalU.contains("inches"))
-        { //Begin converting from square inches
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1;
-                    break;
-                case "feet":
-                    num2 = num1/144.0d;
-                    break;
-                case "yards":
-                    num2 = num1/1296.0d;
-                    break;
-                case "miles":
-                    num2 = num1/4014000000.0d;
-                    break;
-                case "acres":
-                    num2 = num1/6273000.0d;
-                    break;
-                case "kilometers":
-                    num2 = num1/1550000000.0d;
-                    break;
-                case "meters":
-                    num2 = num1/1550.0d;
-                    break;
-            }
-        } //End converting from square inches
-        else if(originalU.contains("feet"))
-        { //Begin converting from square feet
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1*144.0d;
-                    break;
-                case "feet":
-                    num2 = num1;
-                    break;
-                case "yards":
-                    num2 = num1/9.0d;
-                    break;
-                case "miles":
-                    num2 = num1/27880000.0d;
-                    break;
-                case "acres":
-                    num2 = num1/43560.0d;
-                    break;
-                case "kilometers":
-                    num2 = num1/10760000.0d;
-                    break;
-                case "meters":
-                    num2 = num1/10.7639d;
-                    break;
-            }
-        } //End converting from square feet
-        else if(originalU.contains("yards"))
-        { //Begin converting from square yards
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1*1296.0d;
-                    break;
-                case "feet":
-                    num2 = num1*9.0d;
-                    break;
-                case "yards":
-                    num2 = num1;
-                    break;
-                case "miles":
-                    num2 = num1/3098000.0d;
-                    break;
-                case "acres":
-                    num2 = num1/4840.0d;
-                    break;
-                case "kilometers":
-                    num2 = num1/1196000.0d;
-                    break;
-                case "meters":
-                    num2 = num1/1.19599d;
-                    break;
-            }
-        } //End converting from square yards
-        else if(originalU.contains("miles"))
-        { //Begin converting from square miles
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1*4014000000.0d;
-                    break;
-                case "feet":
-                    num2 = num1*27880000.0d;
-                    break;
-                case "yards":
-                    num2 = num1*3098000.0d;
-                    break;
-                case "miles":
-                    num2 = num1;
-                    break;
-                case "acres":
-                    num2 = num1*640.0d;
-                    break;
-                case "kilometers":
-                    num2 = num1*2.58999d;
-                    break;
-                case "meters":
-                    num2 = num1*2590000.0d;
-                    break;
-            }
-        } //End converting from square miles
-        else if(originalU.contains("acre"))
-        { //Begin converting from acres
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1*6273000.0d;
-                    break;
-                case "feet":
-                    num2 = num1*43560.0d;
-                    break;
-                case "yards":
-                    num2 = num1*4840.0d;
-                    break;
-                case "miles":
-                    num2 = num1/640.0d;
-                    break;
-                case "acres":
-                    num2 = num1;
-                    break;
-                case "kilometers":
-                    num2 = num1/247.105d;
-                    break;
-                case "meters":
-                    num2 = num1*4046.86d;
-                    break;
-            }
-        } //End converting from acres
-        else if(originalU.contains("kilo"))
-        { //Begin converting from square kilometers
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1*1550000000.0d;
-                    break;
-                case "feet":
-                    num2 = num1*10760000.0d;
-                    break;
-                case "yards":
-                    num2 = num1*1196000.0d;
-                    break;
-                case "miles":
-                    num2 = num1/2.58999d;
-                    break;
-                case "acres":
-                    num2 = num1;
-                    break;
-                case "kilometers":
-                    num2 = num1;
-                    break;
-                case "meters":
-                    num2 = num1*1000000.0d;
-                    break;
-            }
-        } //End converting from square kilometers
-        else
-        { //Begin converting from square meters
-            switch(newU)
-            {
-                case "inches":
-                    num2 = num1*1550.0d;
-                    break;
-                case "feet":
-                    num2 = num1*10.7639d;
-                    break;
-                case "yards":
-                    num2 = num1*1.19599d;
-                    break;
-                case "miles":
-                    num2 = num1/2590000.0d;
-                    break;
-                case "acres":
-                    num2 = num1/4046.86d;
-                    break;
-                case "kilometers":
-                    num2 = num1/1000000.0d;
-                    break;
-                case "meters":
-                    num2 = num1;
-                    break;
-            }
-        } //End converting from square meters
-
+        //Return the resulting number from the conversion table above
         return num2;
     } //End convertArea
 
@@ -1745,7 +1464,7 @@ public class Converter
      * @param originalNumber must be a valid double
      * @param originalUnit must be a valid String matching one of the supported units
      * @param newUnit must be a valid String matching one of the supported units
-     * @return
+     * @return a double, the converted number
      */
     public double metricConvert(double originalNumber, String originalUnit, String newUnit)
     { //Begin metricConvert
@@ -1760,14 +1479,31 @@ public class Converter
         double num1 = originalNumber;
         double unitNum = 0d;
         double finalNum = 0d;
-        double tenP = 0d;
+        double tenP;
 
         //I like to grab the two strings to prevent accidental editing/deletion. I also send them to lower case.
         String originalUn = originalUnit.toLowerCase();
         String newUn = newUnit.toLowerCase();
 
-        String originalU = originalUn.substring(0, originalUn.indexOf(" "));
-        String newU = newUn.substring(0, newUn.indexOf(" "));
+        String originalU;
+        if(originalUn.contains(" ")) {
+            originalU = originalUn.substring(0, originalUn.indexOf(" "));
+        }
+        else
+        {
+            originalU = originalUn;
+        }
+
+        //If the string from the MetricActivity spinners is passed, there will be a space. Remove everything after it.
+        String newU;
+        if(newUn.contains(" ")) {
+            newU = newUn.substring(0, newUn.indexOf(" "));
+        }
+        else
+        {
+            newU = newUn;
+        }
+        //String newU = newUn.substring(0, newUn.indexOf(" "));
         //Next, I use the first of two switch statements. This converts the original number to UNITS, or x*10^0.
         switch(originalU)
         {
@@ -1921,7 +1657,7 @@ public class Converter
             case "kilo":
                 //Kilo is 10^3
                 tenP = allExponents(10d, 3d);
-                finalNum = unitNum;
+                finalNum = unitNum/tenP;
                 break;
             case "hecto":
                 //Hecto is 10^2
@@ -2010,11 +1746,11 @@ public class Converter
         double finalNum;
         if (exponent > 0)
         {
-            finalNum = Math.pow(b, e);
+            finalNum = Math.pow(base, e);
         }
         else if (exponent < 0)
         {
-            double p = Math.pow(b, e);
+            double p = Math.pow(base, e);
             finalNum = 1/p;
         }
         else

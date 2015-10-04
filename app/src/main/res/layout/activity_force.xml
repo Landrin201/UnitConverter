@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/force_input"
         android:text="@string/submit"
-        android:onClick="convertforce"
+        android:onClick="convertForce"
         />
 
     <TextView

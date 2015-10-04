@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kuniansky.marc.unitconverter"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="23" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.SelectionActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.LengthActivity"
+            android:label="@string/title_activity_length" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.AreaConverter"
+            android:label="@string/title_activity_area_converter" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.TempConvert"
+            android:label="@string/title_activity_temp_convert" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.VolumeActivity"
+            android:label="@string/title_activity_volume" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.MassActivity"
+            android:label="@string/title_activity_mass" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.PressureActivity"
+            android:label="@string/title_activity_pressure" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.TimeActivity"
+            android:label="@string/title_activity_time" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.ForceActivity"
+            android:label="@string/title_activity_force" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.SpeedActivity"
+            android:label="@string/title_activity_speed" >
+        </activity>
+        <activity
+            android:name="com.kuniansky.marc.unitconverter.MetricActivity"
+            android:label="@string/title_activity_metric" >
+        </activity>
+    </application>
+
+</manifest>

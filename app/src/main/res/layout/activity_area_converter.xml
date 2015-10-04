@@ -40,11 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/area_unit_spinner1"
-        android:layout_alignTop="@+id/area_input"
+        android:layout_alignTop="@id/area_input"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/area_input"
-        android:layout_toEndOf="@+id/area_input"
+        android:layout_toRightOf="@id/area_input"
+        android:layout_toEndOf="@id/area_input"
         android:prompt="@string/prompt"/>
 
     <Button

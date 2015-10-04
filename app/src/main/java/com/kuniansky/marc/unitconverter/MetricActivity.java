@@ -128,14 +128,13 @@ public class MetricActivity extends AppCompatActivity {
      */
     public void setSpinnerItems()
     {
-        //I have the array here instead of in XML because changing/adding units requires extensive editing in this file
-        String[] units = {"Yotta (10^24)", "Zeta (10^21)", "Exa (10^18)", "Peta (10^15)", "Tera (10^12)", "Giga (10^9)", "Mega (10^6)",
-                "Kilo (10^3)", "Hecto (10^2)", "Deka (10^1)", "Unit (10^0)",
-                "Deci (10^-`)", "Centi (10^-2)", "Milli (10^-3)", "Micro (10^-6)", "Nano (10^-9)", "Pico (10^-12)", "Femto (10^-15)",
-                "Atto (10^-18)", "Zepto (10^-21)", "Yocto (10^-24"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, units);
         spinner1 = (Spinner)findViewById(R.id.metric_unit_spinner1);
         spinner2 = (Spinner)findViewById(R.id.metric_unit_spinner2);
+        //Get the options from the string array in strings.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.metric_units, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
     }

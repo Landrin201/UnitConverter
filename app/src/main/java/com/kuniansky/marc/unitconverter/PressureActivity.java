@@ -112,11 +112,13 @@ public class PressureActivity extends AppCompatActivity {
      */
     public void setSpinnerItems()
     {
-        //I have the array here instead of in XML because changing/adding units requires extensive editing in this file
-        String[] units = {"Torr", "Atm", "mmHg", "Bar"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, units);
         spinner1 = (Spinner)findViewById(R.id.pressure_unit_spinner1);
         spinner2 = (Spinner)findViewById(R.id.pressure_unit_spinner2);
+        //Get the options from the string array in strings.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.pressure_units, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
     }

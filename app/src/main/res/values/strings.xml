@@ -37,8 +37,11 @@
     <string name="hello_world">Hello world!</string>
 
     <!-- String arrays for the unit converter spinners -->
+    <!-- To add a new unit to any of the arrays, you MUST edit the converter class to allow that
+        unit to be converted. Otherwise, the converter will not work. These only determine which units
+        appear in the spinners. -->
     <string-array name="length_units">
-        <item>Inches</item>
+        <item id="l_inches">Inches</item>
         <item>Feet</item>
         <item>Yards</item>
         <item>Miles</item>
@@ -46,6 +49,85 @@
         <item>Centimeters</item>
         <item>Meters</item>
         <item>Kilometers</item>
+    </string-array>
+    <string-array name="area_units">
+        <item>Square Inches</item>
+        <item>Square Feet</item>
+        <item>Square Yards</item>
+        <item>Square Miles</item>
+        <item>Square Meters</item>
+        <item>Square Kilometers</item>
+        <item>Acres</item>
+    </string-array>
+    <string-array name="force_units">
+        <item>Newtons</item>
+        <item>Pound Force</item>
+    </string-array>
+    <string-array name="mass_units">
+        <item>Pounds</item>
+        <item>Kilograms</item>
+        <item>Grams</item>
+        <item>Milligrams</item>
+    </string-array>
+    <string-array name="pressure_units">
+        <item>Torr</item>
+        <item>Atm</item>
+        <item>mmHg</item>
+        <item>Bar</item>
+        <item>Pascals</item>
+    </string-array>
+    <string-array name="speed_units">
+        <item>Miles per Hour</item>
+        <item>Feet per Second</item>
+        <item>Meters per Second</item>
+        <item>Kilometers per Second</item>
+        <item>Kilometers per Hour</item>
+    </string-array>
+    <string-array name="temp_units">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+    </string-array>
+    <string-array name="time_units">
+        <item>Seconds</item>
+        <item>Minutes</item>
+        <item>Hours</item>
+        <item>Days</item>
+        <item>Weeks</item>
+        <item>Months</item>
+        <item>Years</item>
+    </string-array>
+    <string-array name="volume_units">
+        <item>Milliliter</item>
+        <item>Liter</item>
+        <item>Kiloliter</item>
+        <item>Pint</item>
+        <item>Quart</item>
+        <item>Gallon</item>
+        <item>Cup</item>
+    </string-array>
+    <string-array name="metric_units">
+        <item>Yotta (10^24)</item>
+        <item>Zeta (10^21)</item>
+        <item>Exa (10^18)</item>
+        <item>Peta (10^15)</item>
+        <item>Tera (10^12)</item>
+        <item>Giga (10^9)</item>
+        <item>Mega (10^6)</item>
+        <item>Kilo (10^3)</item>
+        <item>Hecto (10^2)</item>
+        <item>Deka (10^1)</item>
+        <item>Unit (10^0)</item>
+        <item>Deci (10^-1)</item>
+        <item>Centi (10^-2)</item>
+        <item>Milli (10^-3)</item>
+        <item>Micro (10^-6)</item>
+        <item>Nano (10^-9)</item>
+        <item>Pico (10^-12)</item>
+        <item>Femto (10^-15)</item>
+        <item>Atto (10^-18)</item>
+        <item>Zepto (10^-21)</item>
+        <item>Yocto (10^-24)</item>
     </string-array>
 
 </resources>

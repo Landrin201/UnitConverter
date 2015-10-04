@@ -68,6 +68,7 @@ public class AreaConverter extends AppCompatActivity {
 
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
+
         //Instantiate a converter
         Converter converter = new Converter();
 
@@ -80,8 +81,7 @@ public class AreaConverter extends AppCompatActivity {
         //If the user inputs nothing, or inputs an invalid character instead of a number, or
         //if the user's input contains too many decimals, return as 0
         //If the user's input is a valid number, convert it to a double.
-        if(numStr.equals(""))
-        {
+        if(numStr.equals("")) {
             number = 0.0;
         }
         else if(numStr.equals("."))
@@ -94,7 +94,7 @@ public class AreaConverter extends AppCompatActivity {
         }
         else
         {
-            double number = new Double(numStr);
+            number = new Double(numStr);
         }
 
         //Finally, get the text view we need later to display the answer
@@ -117,11 +117,13 @@ public class AreaConverter extends AppCompatActivity {
      */
     public void setSpinnerItems()
     {
-        //I have the array here instead of in XML because changing/adding units requires extensive editing in this file
-        String[] units = {"Square Inches", "Square Feet", "Square Yards", "Square Miles", "Square Meters", "Square Kilometers", "Acres"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, units);
         spinner1 = (Spinner)findViewById(R.id.area_unit_spinner1);
         spinner2 = (Spinner)findViewById(R.id.area_unit_spinner2);
+        //Get the options from the string array in strings.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.area_units, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
     }
