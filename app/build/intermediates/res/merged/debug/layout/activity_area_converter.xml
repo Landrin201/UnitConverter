@@ -6,22 +6,23 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.kuniansky.marc.unitconverter.AreaConverter">
+    android:background="@drawable/background"
+    tools:context="com.kuniansky.marc.unitconvert    er.AreaConverter">
 
-    <TextView
+    <EditText
         android:id="@+id/area_instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/from"
+        android:textColor="#fff4f0"
+        android:layout_marginTop="36dp"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/area_unit_spinner1"
-        android:layout_toStartOf="@+id/area_unit_spinner1"
-        android:layout_marginTop="37dp" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/area_input"
@@ -34,6 +35,7 @@
         android:layout_alignParentStart="true"
         android:inputType="numberDecimal"
         android:hint="@string/tftext"
+        android:textColor="#fff4f0"
         />
 
     <Spinner
@@ -60,12 +62,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Enter a number above"
+        android:text="@string/tftext"
+        android:textColor="#fff4f0"
         android:id="@+id/area_textView2"
-        android:layout_marginTop="120dp"
         android:layout_below="@+id/area_submit"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="44dp" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -80,4 +83,4 @@
 </RelativeLayout>
 
 </ScrollView>
-<!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/layout/activity_area_converter.xml -->
+<!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/layout/activity_area_converter.xml -->

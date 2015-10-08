@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Enter a number above"
+        android:text="@string/tftext"
         android:id="@+id/force_textView2"
         android:layout_marginTop="120dp"
         android:layout_below="@+id/force_submit"
@@ -80,4 +80,4 @@
 </RelativeLayout>
 
     </ScrollView>
-<!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/layout/activity_force.xml -->
+<!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/layout/activity_force.xml -->

@@ -434,7 +434,8 @@ int drawable abc_textfield_default_mtrl_alpha 0x7f02003a
 int drawable abc_textfield_search_activated_mtrl_alpha 0x7f02003b
 int drawable abc_textfield_search_default_mtrl_alpha 0x7f02003c
 int drawable abc_textfield_search_material 0x7f02003d
-int drawable notification_template_icon_bg 0x7f02003e
+int drawable background 0x7f02003e
+int drawable notification_template_icon_bg 0x7f02003f
 int id ScrollView 0x7f0d004d
 int id action0 0x7f0d0095
 int id action_bar 0x7f0d003e
@@ -455,11 +456,11 @@ int id action_settings 0x7f0d00a2
 int id activity_chooser_view_content 0x7f0d0024
 int id alertTitle 0x7f0d002e
 int id always 0x7f0d001b
-int id area_input 0x7f0d0050
+int id area_input 0x7f0d004f
 int id area_instructions 0x7f0d004e
 int id area_submit 0x7f0d0051
 int id area_textView2 0x7f0d0052
-int id area_unit_spinner1 0x7f0d004f
+int id area_unit_spinner1 0x7f0d0050
 int id area_unit_spinner2 0x7f0d0053
 int id beginning 0x7f0d0018
 int id button 0x7f0d007c

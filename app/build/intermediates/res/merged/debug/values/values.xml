@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="area_units">
         <item>Square Inches</item>
@@ -91,7 +91,7 @@
         <item>Gallon</item>
         <item>Cup</item>
     </string-array>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -249,11 +249,11 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -299,7 +299,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Unit Converter</string>
@@ -314,10 +314,10 @@
     <string name="pressure_button">Pressure</string>
     <string name="prompt">Units</string>
     <string name="speed_button">Speed</string>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="submit">Convert</string>
     <string name="temp_button">Temp.</string>
@@ -335,18 +335,18 @@
     <string name="title_activity_volume">Volume Converter</string>
     <string name="to">Convert to:</string>
     <string name="vol_button">Volume</string>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/D:/Programming/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/starw_000/Documents/Programming_Projects/UnitConverter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
