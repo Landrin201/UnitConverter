@@ -57,9 +57,10 @@
     <string-array name="pressure_units">
         <item>Torr</item>
         <item>Atm</item>
-        <item>mmHg</item>
         <item>Bar</item>
         <item>Pascals</item>
+        <item>Kilopascals</item>
+        <item>Megapascals</item>
     </string-array>
     <string-array name="speed_units">
         <item>Miles per Hour</item>

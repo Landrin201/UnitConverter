@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class AreaConverter extends AppCompatActivity {
 
     //Instance variables
@@ -20,7 +25,7 @@ public class AreaConverter extends AppCompatActivity {
     private Spinner spinner1, spinner2;
     private EditText textField1;
     private TextView textView;
-    private Double number;
+    private String number;
 
     //When the activity is created, the XML file needs to be shown and the spinners need to be activated and populated.
     //To populate the spinners, the addItemsOnSpinner method was created. A listener is then used to listen
@@ -82,19 +87,19 @@ public class AreaConverter extends AppCompatActivity {
         //if the user's input contains too many decimals, return as 0
         //If the user's input is a valid number, convert it to a double.
         if(numStr.equals("")) {
-            number = 0.0;
+            number = "0.0";
         }
         else if(numStr.equals("."))
         {
-            number = 0.0;
+            number = "0.0";
         }
         else if(numStr.contains(".."))
         {
-            number = 0.0;
+            number = "0.0";
         }
         else
         {
-            number = new Double(numStr);
+            number = numStr;
         }
 
         //Finally, get the text view we need later to display the answer
@@ -105,11 +110,22 @@ public class AreaConverter extends AppCompatActivity {
         String newUnits = spinner2.getSelectedItem().toString();
 
         //Feed the units and the number into the Converter class and capture the output
-        Double finalNumber = converter.areaConvert(number, originalUnits, newUnits);
+        BigDecimal finalNumber = converter.areaConvert(number, originalUnits, newUnits);
 
-        //Set the text view to show the new number. Need to convert double to string to display.
-        String finalString = Double.toString(finalNumber);
-        textView.setText(finalString);
+        //When numbers get really long, then convert them to scientific notation.
+        if((finalNumber.compareTo(new BigDecimal("99999"))>0 || finalNumber.compareTo(new BigDecimal("0.00001"))<0)) {
+            //These decimals can get pretty huge, so convert them to scientific notation.
+            NumberFormat formatter = new DecimalFormat("0.0E0");
+            formatter.setRoundingMode(RoundingMode.HALF_UP);
+            formatter.setMinimumFractionDigits(6);
+            String formattedNum = formatter.format(finalNumber);
+            textView.setText(formattedNum);
+        }
+        else
+        {
+            BigDecimal formattedNum = finalNumber.setScale(6, RoundingMode.HALF_EVEN);
+            textView.setText(formattedNum.toString());
+        }
     } //End convert area
 
     /**

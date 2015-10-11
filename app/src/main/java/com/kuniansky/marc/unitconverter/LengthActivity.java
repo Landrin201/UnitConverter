@@ -13,10 +13,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * Created 9/17/2015
  * Created by: Marc Kuniansky
  * Modifications:
@@ -25,8 +29,14 @@ import java.util.List;
  *                            with the spinners and make item selections. Had the text box show which item was selected to test functionality
  * Marc Kuniansky, 9/18/2015, Implemented the convertLength method. This method works in conjunction with the Converter class to convert the input
  *                            to the proper output. Made the text view show the final output.
+ * Marc Kuniansky, 10/10/2015, Edited the class to work with the new parameters for the convertLength method, which now accepts a String instead of
+ *                             a Double and returns a BigDecimal instead of a Double.
  *
  *                            Note: This class provides the basis for all other activities in the app.
+ */
+
+/**
+ * Activity which converts between units of length. The user inputs a number and selects two units- one to convert from and one to convert to.
  */
 public class LengthActivity extends AppCompatActivity {
 
@@ -35,7 +45,7 @@ public class LengthActivity extends AppCompatActivity {
     private Spinner spinner1, spinner2;
     private EditText textField1;
     private TextView textView;
-    private Double number;
+    private String number;
 
     //When the activity is created, the XML file needs to be shown and the spinners need to be activated and populated.
     //To populate the spinners, the addItemsOnSpinner method was created. A listener is then used to listen
@@ -93,23 +103,20 @@ public class LengthActivity extends AppCompatActivity {
         //If the user inputs nothing, or inputs an invalid character instead of a number, or
         //if the user's input contains too many decimals, return as 0
         if(numStr.equals("")) {
-            number = 0.0;
+            number = "0.0";
         }
         else if(numStr.equals("."))
         {
-            number = 0.0;
+            number = "0.0";
         }
         else if(numStr.contains(".."))
         {
-            number = 0.0;
+            number = "0.0";
         }
         else
         {
-            number = new Double(numStr);
+            number = numStr;
         }
-
-       // if(number.isNaN())
-         //   number = 0.0;
 
         //Finally, get the text view we need later to display the answer
         textView = (TextView)findViewById(R.id.length_textView2);
@@ -119,10 +126,23 @@ public class LengthActivity extends AppCompatActivity {
         String newUnits = spinner2.getSelectedItem().toString();
 
         //Feed the units and the number into the Converter class and capture the output
-        Double finalNumber = converter.lengthConvert(number, originalUnits, newUnits);
-        //Set the text view to show the new number. Need to convert double to string
-        String finalString = Double.toString(finalNumber);
-        textView.setText(finalString);
+        BigDecimal finalNumber = converter.lengthConvert(number, originalUnits, newUnits);
+
+        //When numbers get really long, then convert them to scientific notation.
+        if((finalNumber.compareTo(new BigDecimal("99999"))>0 || finalNumber.compareTo(new BigDecimal("0.00001"))<0)) {
+            //These decimals can get pretty huge, so convert them to scientific notation.
+            NumberFormat formatter = new DecimalFormat("0.0E0");
+            formatter.setRoundingMode(RoundingMode.HALF_UP);
+            formatter.setMinimumFractionDigits(6);
+            String formattedNum = formatter.format(finalNumber);
+            textView.setText(formattedNum);
+        }
+        else
+        {
+            BigDecimal formattedNum = finalNumber.setScale(6, RoundingMode.HALF_EVEN);
+            textView.setText(formattedNum.toString());
+        }
+
     } //End convert length
 
     /**

@@ -6,332 +6,384 @@ import java.math.*;
  * 9/18/2015 by Marc Kuniansky, Created the class and implemented the lengthConvert method.
  * After the implementation of the lengthConvert, we stopped adding modification tags- because this was a copy/paste/edit job,
  * no major changes were made that we felt the need to document.
+ *
+ * 9/28-10/3 2015 by Marc Kuniansky, Changed all if/else statements to switch statements to simplify the code.
+ *
+ * 10/4/2015 by Marc Kuniansky changed the lengthConvert, tempConvert, massConvert, volumeConvert methods to use BigDecimal numbers instead of double to allow
+ * larger numbers to be converted. Also refactored the metricConvert method to a new class, MetricConversion.
  */
+
 /**
- * This class contains all of the code for the conversions that take place. Each conversion
- * has its own method, and is only called by one activity.
+ * This class contains methods used for converting units of length, temperature, volume, mass, pressure, time,
+ * force, speed, area, and metric.
  *
  * Created by Marc Kuniansky on September 17, 2015
  *
  * @author Marc Kuniansky and Noah Getz
  */
-public class Converter
-{ // Begin converter class
+public class Converter { // Begin converter class
 
     //Constructor
+
     /**
      * Constructor with no parameters
      */
-    public Converter()
-    {
-        //Can just be empty, there are no global variables
-    }
+    public Converter() { //Begin constructor
+        //There are no instance variables for the class, so this can be blank.
+    } //End constructor
 
     /**
      * Takes a number, a length unit, and a new unit and converts the number to the new unit.
-     *
+     * <p/>
      * Accepted units: inches, feet, yards, miles, millimeters, centimeters, meters, kilometers
      * Marc Kuniansky
-     * @param originalNum must be a valid double.
+     *
+     * @param originalNum  must be a valid double.
      * @param originalUnit must be a string
-     * @param desiredUnit must be a string
-     * @return the new double
+     * @param newUnit  must be a string
+     * @return the new BigDecimal
      */
-    public double lengthConvert(double originalNum, String originalUnit, String desiredUnit)
-    {
+    public BigDecimal lengthConvert(String originalNum, String originalUnit, String newUnit) {
+        //Converting from a double to a BigDecimal can generate a small error with large numbers. To fix this, convert the
+        //user-input double to a string first.
         //Make two variable doubles, one the original double and one the new one
-        double num1 = originalNum;
-        double num2 = 0.0d;
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
-        String original = originalUnit.toLowerCase();
-        String newU = desiredUnit.toLowerCase();
+        String originalU = originalUnit.toLowerCase();
+        String newU = newUnit.toLowerCase();
 
-        //Now there is a series of if statements to check which units are being converted from/to and
-        //to do the proper operation
-        switch(original)
-        {
-            case "inches":
-            { //Begin converting from inches
-                switch(newU)
-                {
+        MetricConversion metrics;
+        //Now to the actual conversions
+        switch (originalU) {
+            case "inches": { //Begin converting from inches
+                switch (newU) {
                     case "inches":
                         num2 = num1;
                         break;
                     case "feet":
                         //12 inches in a foot, so divide by 12
-                        num2 = num1 / 12.0d;
+                        factor = new BigDecimal("12.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
                         //36 inches in a yard, so divide by 36
-                        num2 = num1 / 36.0d;
+                        factor = new BigDecimal("36.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
                         //63,360 inches in a mile
-                        num2 = num1 / 63360.0d;
+                        factor = new BigDecimal("63360.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
                         //There are 25.4 millimeters in an inch, so multiply inches by 25.4
-                        num2 = num1 * 25.4d;
+                        factor = new BigDecimal("25.4");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "centimeters":
                         //2.54cm in an inch, multiply inches by 2.54
-                        num2 = num1 * 2.54d;
+                        factor = new BigDecimal("2.54");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters":
                         //0.0254 meters to an inch, so multiply inches by 0.0254
-                        num2 = num1 * 0.0254d;
+                        factor = new BigDecimal("0.0254");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers":
                         //0.0000254km in an inch
-                        num2 = num1 * 0.0000254d;
+                        factor = new BigDecimal("0.0254");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 }
                 break;
             } //End converting from inches
 
             //Next, converting from feet
-            case "feet":
-            { //Begin conversions from feet
-                switch(newU)
-                {
+            case "feet": { //Begin conversions from feet
+                switch (newU) {
                     case "inches":
                         //12 inches in a foot, multiply by 12
-                        num2 = num1*12.0d;
+                        factor = new BigDecimal("12.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
                         num2 = num1;
                         break;
                     case "yards":
                         //3 feet in a yard
-                        num2 = num1/3.0d;
+                        factor = new BigDecimal("3.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
                         //5,280 feet in a mile
-                        num2 = num1/5280.0d;
+                        factor = new BigDecimal("5280.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
                         //304.8 millimeters in a foot
-                        num2 = num1*304.8d;
+                        factor = new BigDecimal("304.8");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "centimeters":
                         //30.48 Centimeters in a foot
-                        num2 = num1*30.48d;
+                        factor = new BigDecimal("30.48");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters":
                         //0.3048 meters in a foot
-                        num2 = num1*0.3048d;
+                        factor = new BigDecimal("0.3048");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers":
                         //0.0003048 kilometers in a meter
-                        num2 = num1*0.0003048d;
+                        factor = new BigDecimal("0.0003048");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 }
                 break;
             } //End conversions from feet
 
             //Next, conversions from yards
-            case "yards":
-            { //Begin conversions from yards
-                switch(newU) {
+            case "yards": { //Begin conversions from yards
+                switch (newU) {
                     case "inches":
                         //36 inches in a yard
-                        num2 = num1 * 36.0d;
+                        factor = new BigDecimal("36.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
                         //3 feet to a yard
-                        num2 = num1 * 3.0d;
+                        factor = new BigDecimal("3.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
                         num2 = num1;
                         break;
                     case "miles":
                         //1760 yards in a mile
-                        num2 = num1 / 1760.0d;
+                        factor = new BigDecimal("1760.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
                         //914.4 millimeters in a yard
-                        num2 = num1 * 914.4d;
+                        factor = new BigDecimal("914.4");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "centimeters":
                         //91.44 centimeters in a yard
-                        num2 = num1*91.44d;
+                        factor = new BigDecimal("91.44");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters":
-                        num2 = num1*0.9144d;
+                        factor = new BigDecimal("0.9144");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers":
                         //1,093.61 yards in a kilometer
-                        num2 = num1/1093.61d;
+                        factor = new BigDecimal("1093.61");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 }
                 break;
             } //End conversions from yards
 
             //Next, convert from miles
-            case "miles":
-            { //Begin conversions from miles
-                switch(newU)
-                {
+            case "miles": { //Begin conversions from miles
+                switch (newU) {
                     case "inches":
                         //6330 inches in a mile
-                        num2 = num1*6330.0d;
+                        factor = new BigDecimal("6330.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
                         //5280 feet in a mile
-                        num2 = num1*5280.0d;
+                        factor = new BigDecimal("5280.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
                         //1760 yards in a mile
-                        num2 = num1*1760.0d;
+                        factor = new BigDecimal("1760.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
+                        //1 mile in a mile
                         num2 = num1;
                         break;
                     case "millimeters":
                         //1,609,000 millimeters in a mile
-                        num2 = num1*1609340.0d;
+                        factor = new BigDecimal("1609340.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "centimeters":
                         //16,0934 centimeters in a miles
-                        num2 = num1*160934.0d;
+                        factor = new BigDecimal("160934.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters":
                         //1609.34 meters in a mile
-                        num2 = num1*1609.34d;
+                        factor = new BigDecimal("1609.34");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers":
                         //1.60934 kilometers in a mile
-                        num2 = num1*1.60934d;
+                        factor = new BigDecimal("1.60934");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 }
                 break;
             } //End converting from miles
 
             //Next, convert from millimeters
-            case "millimeters":
-            { //Begin converting from millimeters
-                switch(newU)
-                {
+            case "millimeters": { //Begin converting from millimeters
+                switch (newU) {
                     case "inches":
-                        num2 = num1*25.4d;
+                        factor = new BigDecimal("25.4");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
-                        num2 = num1/304.8d;
+                        factor = new BigDecimal("304.8");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
-                        num2 = num1/914.4d;
+                        factor = new BigDecimal("914.4");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
-                        num2 = num1/1609000.0d;
+                        factor = new BigDecimal("1609000.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
                         num2 = num1;
                         break;
                     case "centimeters":
-                        num2 = metricConvert(num1, "milli", "centi");
+                        metrics = new MetricConversion(num1, "milli", "centi");
+                        num2 = metrics.metricConvert();
                         break;
                     case "meters":
-                        num2 = metricConvert(num1, "milli", "unit");
+                        metrics = new MetricConversion(num1, "milli", "unit");
+                        num2 = metrics.metricConvert();
                         break;
                     case "kilometers":
-                        num2 = metricConvert(num1, "milli", "kilo");
+                        metrics = new MetricConversion(num1, "milli", "kilo");
+                        num2 = metrics.metricConvert();
                         break;
                 }
                 break;
             } //End converting from millimeters
 
             //Next, convert from centimeters
-            case "centimeters":
-            { //Begin converting from centimeters
-                switch(newU)
-                {
+            case "centimeters": { //Begin converting from centimeters
+                switch (newU) {
                     case "inches":
-                        num2 = num1 / 2.54d;
+                        factor = new BigDecimal("2.54");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
-                        num2 = num1 / 30.48d;
+                        factor = new BigDecimal("30.48");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
-                        num2 = num1 / 91.44d;
+                        factor = new BigDecimal("91.44");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
-                        num2 = num1/160934.0d;
+                        factor = new BigDecimal("160934.0");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
-                        num2 = metricConvert(num1, "centi", "milli");
+                        metrics = new MetricConversion(num1, "centi", "milli");
+                        num2 = metrics.metricConvert();
                         break;
                     case "centimeters":
                         num2 = num1;
                         break;
                     case "meters":
-                        num2 = metricConvert(num1, "centi", "unit");
+                        metrics = new MetricConversion(num1, "centi", "unit");
+                        num2 = metrics.metricConvert();
                         break;
                     case "kilometers":
-                        num2 = metricConvert(num1, "centi", "kilo");
+                        metrics = new MetricConversion(num1, "centi", "kilo");
+                        num2 = metrics.metricConvert();
                         break;
                 }
                 break;
             } //End converting from centimeters
 
             //Next, convert from meters
-            case "meters":
-            { //Begin converting from meters
-                switch(newU) {
+            case "meters": { //Begin converting from meters
+                switch (newU) {
                     case "inches":
-                        num2 = num1 * 39.3701d;
+                        factor = new BigDecimal("39.3701d\"");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
-                        num2 = num1 * 3.28084d;
+                        factor = new BigDecimal("3.28084");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
-                        num2 = num1*1.09361d;
+                        factor = new BigDecimal("1.09361");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
-                        num2 = num1/1609.34d;
+                        factor = new BigDecimal("1609.34");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
-                        num2 = metricConvert(num1, "unit", "milli");
+                        metrics = new MetricConversion(num1, "unit", "milli");
+                        num2 = metrics.metricConvert();
                         break;
                     case "centimeters":
-                        num2 = metricConvert(num1, "unit", "centi");
+                        metrics = new MetricConversion(num1, "unit", "centi");
+                        num2 = metrics.metricConvert();
                         break;
                     case "meters":
                         num2 = num1;
                         break;
                     case "kilometers":
-                        num2 = this.metricConvert(num1, "unit", "kilo");
+                        metrics = new MetricConversion(num1, "unit", "kilo");
+                        num2 = metrics.metricConvert();
                         break;
                 }
                 break;
             } //End converting from meters
 
             //Finally, try converting from kilometers
-            case "kilometers":
-            { //Begin converting from kilometers
-                switch(newU)
-                {
+            case "kilometers": { //Begin converting from kilometers
+                switch (newU) {
                     case "inches":
-                        num2 = num1*39370.1d;
+                        factor = new BigDecimal("39370.1");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet":
-                        num2 = num1*3280.84d;
+                        factor = new BigDecimal("3280.84");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "yards":
-                        num2 = num1*1093.61d;
+                        factor = new BigDecimal("1093.61");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "miles":
-                        num2 = num1/1.60934d;
+                        factor = new BigDecimal("1.60934");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
                         break;
                     case "millimeters":
-                        num2 = metricConvert(num1, "kilo", "milli");
+                        metrics = new MetricConversion(num1, "kilo", "milli");
+                        num2 = metrics.metricConvert();
                         break;
                     case "centimeters":
-                        num2 = metricConvert(num1, "kilo", "centi");
+                        metrics = new MetricConversion(num1, "kilo", "centi");
+                        num2 = metrics.metricConvert();
                         break;
                     case "meters":
-                        num2 = metricConvert(num1, "kilo", "unit");
+                        metrics = new MetricConversion(num1, "kilo", "unit");
+                        num2 = metrics.metricConvert();
                         break;
                     case "kilometers":
                         num2 = num1;
@@ -340,31 +392,39 @@ public class Converter
                 break;
             } //End converting from kilometers
         }
-
         //num2 is the number we want; return it
         return num2;
     } // End lengthConvert
 
     /**
      * Takes a number, a temperature unit, and a new unit and converts the number to the new unit.
-     *
+     * <p/>
      * Accepted units: Fahrenheit, Kelvin, Celsius
      * Noah Getz
-     * @param originalNum must be a valid double.
+     *
+     * @param originalNum  must be a valid double.
      * @param originalUnit must be a string
-     * @param desiredUnit must be a string
-     * @return the new double
+     * @param newUnit  must be a string
+     * @return the new BigDecimal
      */
-    public double tempConvert(double originalNum, String originalUnit, String desiredUnit)
+    public BigDecimal tempConvert(String originalNum, String originalUnit, String newUnit)
     { //Begin tempConvert
+        //Converting from a double to a BigDecimal can cause errors in large numbers. So do it from a string instead.
+        BigDecimal num1 = new BigDecimal(originalNum);
         //Make two variable doubles, one the original double and one the new one
-        double num2 = 0.0d;
-        double num3;
+        BigDecimal num2 = new BigDecimal("0.0");
+        BigDecimal num3;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
         String original = originalUnit.toLowerCase();
-        String newU = desiredUnit.toLowerCase();
+        String newU = newUnit.toLowerCase();
+
+        //BigDecimal math requires big decimal values to work properly. I know all the values I will need; they are made into BigDecimals below
+        BigDecimal nine = new BigDecimal("9.0");
+        BigDecimal five = new BigDecimal("5.0");
+        BigDecimal thirtyTwo = new BigDecimal("32.0");
+        BigDecimal twoSeventyThree = new BigDecimal("273.15");
 
         switch(original)
         { //Begin conversion table
@@ -373,32 +433,46 @@ public class Converter
                 switch(newU)
                 {
                     case "celsius":
-                        num2 = originalNum;
+                        //1 Degree C in 1 degree C
+                        num2 = num1;
                         break;
                     case "fahrenheit":
-                        num2 = (originalNum*(9.0/5.0)) + 32d;
+                        //Conversion from C to F: (C*9/5)+32
+                        //Divide 9/5
+                        num3 = nine.divide(five, 200, RoundingMode.HALF_EVEN);
+                        BigDecimal num4 = num3.multiply(num1);
+                        num2 = num4.add(thirtyTwo);
                         break;
                     case "kelvin":
-                        num2 = originalNum + 273.15d;
+                        //Add 273.15+C to convert from C to K
+                        num2 = num1.add(twoSeventyThree);
                         break;
                 }
                 break;
-            } //end converting from Celsius
+            } //End converting from Celsius
             case "fahrenheit":
             { //Begin converting from Fahrenheit
                 switch(newU)
-                {
+                { //Begin converting from Fahrenheit
                     case "celsius":
-                        num3 = (-originalNum - 32d);
-                        num2 = num3 * (5.0/9.0);
+                        //Conversion from F to C: (F-32)*5/9
+                        num3 = num1.subtract(thirtyTwo);
+                        num2 = num3.multiply(five.divide(nine, 200, RoundingMode.HALF_EVEN));
                         break;
                     case "fahrenheit":
-                        num2 = originalNum;
+                        //1 degree F in 1 degree F
+                        num2 = num1;
                         break;
                     case "kelvin":
-                        num2 = ((originalNum - 32d)*(5.0/9.0)) + 273.15d;
+                        //First, convert to Celsius as normal. then, convert to Kelvin.
+                        //Subtract 32 from F
+                        num3 = num1.subtract(thirtyTwo);
+
+                        //Multiply F by 5/9
+                        BigDecimal num4 = num3.multiply(five.divide(nine, 200, RoundingMode.HALF_EVEN));
+                        num2 = num4.add(twoSeventyThree);
                         break;
-                }
+                } //End converting from Fahrenheit
                 break;
             } //End converting from Fahrenheit
             case "kelvin":
@@ -406,17 +480,24 @@ public class Converter
                 switch(newU)
                 {
                     case "celsius":
-                        num2 = originalNum - 273.15d;
+                        //Subtract 273.15 from K to convert to C
+                        num2 = num1.subtract(twoSeventyThree);
                         break;
                     case "fahrenheit":
-                        num2 = ((originalNum - 273.15d) *(9.0/5.0)) + 32d;
+                        //First convert to Celsius
+                        num3 = num1.subtract(twoSeventyThree);
+                        //Multiply C by 9/5
+                        BigDecimal num4 = num3.multiply(nine.divide(five, 200, RoundingMode.HALF_EVEN));
+                        //Add 32
+                        num2 = num4.add(thirtyTwo);
                         break;
                     case "kelvin":
-                        num2 = originalNum;
+                        //1K in 1K
+                        num2 = num1;
                         break;
                 }
                 break;
-            }
+            }//End converting from Kelvin
         } //End conversion table
 
         //Return the final number, num2
@@ -424,314 +505,443 @@ public class Converter
     } //End tempConvert
 
     /**
-     * Takes a number, a volume unit, and a new unit and converts the number to the new unit.
-     *
-     * Accepted units: Milliliter, liter, kiloliter, pint, quart, gallon, cup.
-     *
-     * Noah Getz
-     * @param originalNum must be a valid double.
-     * @param originalUnit must be a string
-     * @param desiredUnit must be a string
-     * @return the new double
-     */
-    public double volumeConvert(double originalNum, String originalUnit, String desiredUnit)
-    { //Begin volumeConvert
+         Takes a number, a volume unit, and a new unit and converts the number to the new unit.
+         *
+         * Accepted units: Milliliter, liter, kiloliter, pint, quart, gallon, cup.
+         *
+         * Noah Getz
+         * @param originalNum must be a valid double.
+         * @param originalUnit must be a string
+         * @param newUnit must be a string
+         * @return the new BigDecimal
+         */
+    public BigDecimal volumeConvert(String originalNum, String originalUnit, String newUnit) { //Begin volumeConvert
 
         //Make two variable doubles, one the original double and one the new one
-        double num1 = originalNum;
-        double num2 = 0.0d;
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+        BigDecimal factor;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
-        String original = originalUnit.toLowerCase();
-        String newU = desiredUnit.toLowerCase();
+        String originalU = originalUnit.toLowerCase();
+        String newU = newUnit.toLowerCase();
 
-        switch(original)
+        //Instantiate the MetricConversion class, as there are some metric conversions here
+        MetricConversion metric;
+
+        switch (originalU)
         { //Begin conversion table
-            case "milliliter":
-                switch(newU)
-                {
-                    case "milliliter":
+            case "milliliters":
+                switch (newU)
+                { //Begin converting from milliliters
+                    case "milliliters":
+                        //One milliliter in a milliliter
                         num2 = num1;
                         break;
-                    case "liter":
-                        num2 = metricConvert(num1, "milli", "unit");
+                    case "liters":
+                        //1000 milliliters in a liter, use the MetricConversion class
+                        metric = new MetricConversion(originalNum, "milli", "unit");
+                        num2 = metric.metricConvert();
                         break;
-                    case "kiloliter":
-                        num2 = metricConvert(num1, "milli", "kilo");
+                    case "kiloliters":
+                        //Use the MetricConversion class to convert milliliters to kiloliters
+                        metric = new MetricConversion(originalNum, "milli", "kilo");
+                        num2 = metric.metricConvert();
                         break;
-                    case "pint":
-                        num2 = originalNum * .00211338d;
+                    case "pints":
+                        //There are 473.176473 mL in a pint
+                        factor = new BigDecimal("473.176473");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "quart":
-                        num2 = originalNum * .00105669d;
+                    case "quarts":
+                        //There are 946.352946 mL in a quart
+                        factor = new BigDecimal("946.352946");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "gallon":
-                        num2 = originalNum * .000264172d;
+                    case "gallons":
+                        //There are 3785.41178 mL in a gallon
+                        factor = new BigDecimal("3785.41178");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "cup":
-                        num2 = originalNum * .00422675d;
+                    case "cups":
+                        //There are 236.588237 mL in a cup
+                        factor = new BigDecimal("236.588237");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                }
+                } //End converting from milliliters
                 break;
 
-            case "liter":
-                switch(newU)
-                {
-                    case "milliliter":
-                        num2 = metricConvert(num1, "unit", "milli");
+            case "liters":
+                switch (newU)
+                { //Begin converting from liters
+                    case "milliliters":
+                        //Use the MetricConversion class
+                        metric = new MetricConversion(originalNum, "unit", "milli");
+                        num2 = metric.metricConvert();
                         break;
-                    case "liter":
+                    case "liters":
+                        //1 liter in a liter
                         num2 = num1;
                         break;
-                    case "kiloliter":
-                        num2 = metricConvert(num1, "unit", "kilo");
+                    case "kiloliters":
+                        //Use the MetricConversion class
+                        metric = new MetricConversion(originalNum, "unit", "kilo");
+                        num2 = metric.metricConvert();
                         break;
-                    case "pint":
-                        num2 = originalNum * 2.11338d;
+                    case "pints":
+                        //There are 2.11337642 pints in a liter
+                        factor = new BigDecimal("2.11337642");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "quart":
-                        num2 = originalNum * 1.05669d;
+                    case "quarts":
+                        //There are 1.05668821 quarts in a liter
+                        factor = new BigDecimal("1.05668821");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "gallon":
-                        num2 = originalNum * 0.264172d;
+                    case "gallons":
+                        //There are 3.7854118 liters in a gallon
+                        factor = new BigDecimal("3.7854118");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "cup":
-                        num2 = originalNum * 4.22675d;
+                    case "cups":
+                        //There are 4.2267528377 cups in a liter
+                        factor = new BigDecimal("4.2267528377");
+                        num2 = num1.multiply(factor);
                         break;
-                }
+                } //End converting from liters
                 break;
 
-            case "kiloliter":
-                switch(newU)
-                {
-                    case "milliliter":
-                        num2 = metricConvert(num1, "kilo", "milli");
+            case "kiloliters":
+                switch (newU)
+                { //Begin converting from Kiloliters
+                    case "milliliters":
+                        //Use the MetricConvert class
+                        metric = new MetricConversion(originalNum, "kilo", "milli");
+                        num2 = metric.metricConvert();
                         break;
-                    case "liter":
-                        num2 = metricConvert(num1, "kilo", "unit");
+                    case "liters":
+                        //Use the MetricConvert class
+                        metric = new MetricConversion(originalNum, "kilo", "unit");
+                        num2 = metric.metricConvert();
                         break;
-                    case "kiloliter":
+                    case "kiloliters":
+                        //1 Kiloliter in a liter
                         num2 = num1;
                         break;
-                    case "pint":
-                        num2 = originalNum * 2113.38d;
+                    case "pints":
+                        //There are 2113.374999944256615 pints in a kiloliter
+                        factor = new BigDecimal("2113.374999944256615");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "quart":
-                        num2 = originalNum * 1056.69d;
+                    case "quarts":
+                        //There are 1056.6874999721280801 quarts in a kiloliter
+                        factor = new BigDecimal("1056.6874999721280801");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "gallon":
-                        num2 = originalNum * 264.172d;
+                    case "gallons":
+                        //There are 264.171874993032 gallons in a kiloliter.
+                        factor = new BigDecimal("264.171874993032");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "cup":
-                        num2 = originalNum * 4226.75d;
+                    case "cups":
+                        //There are 4226.75 cups in a kiloliter
+                        factor = new BigDecimal("4226.75");
+                        num2 = num1.multiply(factor);
                         break;
-                }
+                } //End converting from Kiloliters
                 break;
 
-            case "pint":
-                switch(newU)
-                {
+            case "pints":
+                switch (newU)
+                { //Begin converting from pints
                     case "milliliter":
-                        num2 = originalNum * 473.176d;
+                        //There are 473.176473 milliliters in a pint.
+                        factor = new BigDecimal("473.176473");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "liter":
-                        num2 = originalNum * 0.473176d;
+                    case "liters":
+                        //There are 2.11337642 pints in a liter
+                        factor = new BigDecimal("2.11337642");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "kiloliter":
-                        num2 = originalNum * .00047176d;
+                    case "kiloliters":
+                        //There are 1056.6874999721283075 pints in a kiloliter
+                        factor = new BigDecimal("1056.6874999721283075");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "pint":
+                    case "pints":
+                        //There is one pint in a pint
                         num2 = num1;
                         break;
-                    case "quart":
-                        num2 = originalNum * .5d;
+                    case "quarts":
+                        //There are 2 pints in a quart
+                        factor = new BigDecimal("2.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "gallon":
-                        num2 = originalNum * .125d;
+                    case "gallons":
+                        //There are 8 pints in a gallon
+                        factor = new BigDecimal("8.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "cup":
-                        num2 = originalNum * 2.0d;
+                    case "cups":
+                        //There are 2 cups in a pint
+                        factor = new BigDecimal("2.0");
+                        num2 = num1.multiply(factor);
                         break;
-                }
+                } //End converting from pints
                 break;
 
-            case "quart":
-                switch(newU)
-                {
-                    case "milliliter":
-                        num2 = originalNum * 946.353d;
+            case "quarts":
+                switch (newU)
+                { //Begin converting from quarts
+                    case "milliliters":
+                        //There are 946.352946 milliliters in a quart
+                        factor = new BigDecimal("946.352946");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "liter":
-                        num2 = originalNum * 0.946353d;
+                    case "liters":
+                        //There are 1.05668821 quarts in a liter
+                        factor = new BigDecimal("1.05668821");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "kiloliter":
-                        num2 = originalNum * .000946353d;
+                    case "kiloliters":
+                        //There are 1056.6874999721280801 quarts in a kiloliter
+                        factor = new BigDecimal("1056.6874999721280801");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "pint":
-                        num2 = originalNum * 2.0d;
+                    case "pints":
+                        //There are 2 pints in a quart
+                        factor = new BigDecimal("2.0");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "quart":
+                    case "quarts":
+                        //There is one quart in a quart
                         num2 = num1;
                         break;
-                    case "gallon":
-                        num2 = originalNum * .25d;
+                    case "gallons":
+                        //There are 4 quarts in a gallon
+                        factor = new BigDecimal("4.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "cup":
-                        num2 = originalNum * 4.0d;
+                    case "cups":
+                        //There are 4 cups in a quart
+                        factor = new BigDecimal("4.0");
+                        num2 = num1.multiply(factor);
                         break;
-                }
+                } //End converting from quarts;
                 break;
 
-            case "gallon":
-                switch(newU)
-                {
-                    case "milliliter":
-                        num2 = originalNum * 3785.41d;
+            case "gallons":
+                switch (newU)
+                { //Begin converting from gallons
+                    case "milliliters":
+                        //There are 3785.41178 mL in a gallon
+                        factor = new BigDecimal("3785.41178");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "liter":
-                        num2 = originalNum * 3.78541d;
+                    case "liters":
+                        //There are 3.7854118 liters in a gallon
+                        factor = new BigDecimal("3.7854118");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "kiloliter":
-                        num2 = originalNum * .00378541d;
+                    case "kiloliters":
+                        //There are 264.171874993032 gallons in a kiloliter.
+                        factor = new BigDecimal("264.171874993032");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "pint":
-                        num2 = originalNum * 8.0d;
+                    case "pints":
+                        //There are 8 pints in a gallon
+                        factor = new BigDecimal("8.0");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "quart":
-                        num2 = originalNum * 4.0d;
+                    case "quarts":
+                        //There are 4 quarts in a gallon
+                        factor = new BigDecimal("4.0");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "gallon":
+                    case "gallons":
+                        //There is one gallon in a gallon
                         num2 = num1;
                         break;
-                    case "cup":
-                        num2 = originalNum * 16.0d;
+                    case "cups":
+                        //There are 16 cups in a gallon
+                        factor = new BigDecimal("16.0");
+                        num2 = num1.multiply(factor);
                         break;
-                }
+                } //end converting from gallons
                 break;
 
-            case "cup":
-                switch(newU)
-                {
-                    case "milliliter":
-                        num2 = originalNum * 236.588d;
+            case "cups":
+                switch (newU)
+                { //Begin converting from cups
+                    case "milliliters":
+                        //There are 236.588237 mL in a cup
+                        factor = new BigDecimal("236.588237");
+                        num2 = num1.multiply(factor);
                         break;
-                    case "liter":
-                        num2 = originalNum * 0.236588d;
+                    case "liters":
+                        //There are 4.2267528377 cups in a liter
+                        factor = new BigDecimal("4.2267528377");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "kiloliter":
-                        num2 = originalNum * .000236588d;
+                    case "kiloliters":
+                        //There are 4226.75 cups in a kiloliter
+                        factor = new BigDecimal("4226.75");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "pint":
-                        num2 = originalNum * .5d;
+                    case "pints":
+                        //There are 2 cups in a pint
+                        factor = new BigDecimal("2.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "quart":
-                        num2 = originalNum * .25d;
+                    case "quarts":
+                        //There are 4 cups in a quart
+                        factor = new BigDecimal("4.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "gallon":
-                        num2 = originalNum * .0625d;
+                    case "gallons":
+                        //There are 16 cups in a gallon
+                        factor = new BigDecimal("16.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "cup":
-                        num2 = originalNum;
+                    case "cups":
+                        //There is one cup in a cup
+                        num2 = num1;
                         break;
-                }
+                } //End converting from cups
                 break;
         } //End conversion table
+
         //Return the final number, num2
         return num2;
     } //End volume convert
 
     /**
      * Takes a number, a mass unit, and a new unit and converts the number to the new unit.
-     *
+     * <p/>
      * Accepted units: pounds, kilograms, grams, milligrams
      * Noah Getz
-     * @param originalNum must be a valid double.
+     *
+     * @param originalNum  must be a valid double.
      * @param originalUnit must be a string
-     * @param desiredUnit must be a string
-     * @return the new double
+     * @param newUnit  must be a string
+     * @return the new BigDecimal
      */
-    public double massConvert(double originalNum, String originalUnit, String desiredUnit)
+    public BigDecimal massConvert(String originalNum, String originalUnit, String newUnit)
     { //Begin massConvert
-        //Make two variable doubles, one the original double and one the new one
-        double num1 = originalNum;
-        double num2 = 0.0d;
 
+        //Make two variable doubles, one the original double and one the new one
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
-        String original = originalUnit.toLowerCase();
-        String newU = desiredUnit.toLowerCase();
+        String originalU = originalUnit.toLowerCase();
+        String newU = newUnit.toLowerCase();
 
-        switch(original)
+        MetricConversion metrics;
+
+        switch (originalU)
         { //Begin conversion table
             case "pounds":
-                switch(newU)
-                {
+                switch (newU)
+                { //Begin converting from pounds
                     case "pounds":
-                        num2 = originalNum;
+                        //there is 1 pound in a pound
+                        num2 = num1;
                         break;
                     case "kilograms":
-                        num2 = originalNum * 0.453592d;
+                        //There are 2.20462262 pounds in a kilogram
+                        factor = new BigDecimal("2.20462262");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "grams":
-                        num2 = originalNum * 453.592d;
+                        //There are 453.59237 grams in a pound
+                        factor = new BigDecimal("453.59237");
+                        num2 = num2.multiply(factor);
                         break;
                     case "milligrams":
-                        num2 = originalNum * 453592.0d;
+                        //There are 453592 milligrams in a pound
+                        factor = new BigDecimal("453592");
+                        num2 = num2.multiply(factor);
                         break;
-                }
+                } //End converting from pounds
                 break;
             case "kilograms":
-                switch(newU)
-                {
+                switch (newU)
+                { //Begin converting from kilograms
                     case "pounds":
-                        num2 = originalNum * 2.20462d;
+                        //There are 2.20462262 pounds in a kilogram
+                        factor = new BigDecimal("2.20462262");
+                        num2 = num2.multiply(factor);
                         break;
                     case "kilograms":
-                        num2 = originalNum;
+                        //There is 1 kilogram in a kilogram
+                        num2 = num1;
                         break;
                     case "grams":
-                        num2 = metricConvert(num1, "kilo", "unit");
+                        //Use MetricConversion class
+                        metrics = new MetricConversion(num1, "kilo", "unit");
+                        num2 = metrics.metricConvert();
                         break;
                     case "milligrams":
-                        num2 = metricConvert(num1, "kilo", "milli");
+                        //Use MetricConversion class
+                        metrics = new MetricConversion(num1, "kilo", "milli");
+                        num2 = metrics.metricConvert();
                         break;
-                }
+                } //End converting from kilograms
                 break;
             case "grams":
-                switch(newU)
-                {
+                switch (newU)
+                { //End converting from grams
                     case "pounds":
-                        num2 = originalNum * 2.20462d;
+                        //There are 453.59237 grams in a pound
+                        factor = new BigDecimal("453.59237");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilograms":
-                        num2 = metricConvert(num1, "unit", "kilo");
+                        //Use MetricConversion class
+                        metrics = new MetricConversion(num1, "unit", "kilo");
+                        num2 = metrics.metricConvert();
                         break;
                     case "grams":
-                        num2 = originalNum;
+                        //There is 1 gram in a gram
+                        num2 = num1;
                         break;
                     case "milligrams":
-                        num2 = metricConvert(num1, "unit", "milli");
+                        //Use MetricConversion class
+                        metrics = new MetricConversion(num1, "unit", "milli");
+                        num2 = metrics.metricConvert();
                         break;
-                }
+                } //End converting from grams
                 break;
             case "milligrams":
-                switch(newU)
-                {
+                switch (newU)
+                { //Begin converting from milliliters
                     case "pounds":
-                        num2 = originalNum * .0000022046d;
+                        //There are 453592 milligrams in a pound
+                        factor = new BigDecimal("453592");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilograms":
-                        num2 = metricConvert(num1, "milli", "kilo");
+                        //Use MetricConversion class
+                        metrics = new MetricConversion(num1, "milli", "kilo");
+                        num2 = metrics.metricConvert();
                         break;
                     case "grams":
-                        num2 = metricConvert(num1, "milli", "unit");
+                        //Use MetricConversion class
+                        metrics = new MetricConversion(num1, "milli", "unit");
+                        num2 = metrics.metricConvert();
                         break;
                     case "milligrams":
-                        num2 = originalNum;
+                        //There is 1 milligram in a milligram
+                        num2 = num1;
                         break;
-                }
+                } //End converting from milliliters
                 break;
         } //End conversion table
 
@@ -741,498 +951,784 @@ public class Converter
 
     /**
      * Takes a number, a pressure unit, and a new unit and converts the number to the new unit.
-     *
+     * <p/>
      * Accepted units: torr, atm, mmHg, barr
      * Noah Getz
-     * @param originalNum must be a valid double.
+     *
+     * @param originalNum  must be a valid double.
      * @param originalUnit must be a string
-     * @param desiredUnit must be a string
-     * @return the new double
+     * @param newUnit  must be a string
+     * @return the new BigDecimal
      */
-    public double pressureConvert(double originalNum, String originalUnit, String desiredUnit){
-        //Make two variable doubles, one the original double and one the new one
-        double num2 = 0.0d;
+    public BigDecimal pressureConvert(String originalNum, String originalUnit, String newUnit) {
 
+        //Make two variable doubles, one the original double and one the new one
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
 
         //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
         //Also convert them to lower case
-        String original = originalUnit.toLowerCase();
-        String newU = desiredUnit.toLowerCase();
-
-
-        if(original.equals("torr")) {
-            if (newU.equals("torr")) {
-                num2 = originalNum;
-
-            }
-            else if (newU.equals("atm")) {
-                num2 = originalNum * 0.0013157893594d;
-            }
-
-            else if (newU.equals("mmhg")) {
-                num2 = originalNum * 0.99999984999d;
-            }
-
-            else{
-                num2 = originalNum * 0.0013332237d;
-            }
-        }
-
-        else if(original.equals("atm")) {
-            if (newU.equals("atm")) {
-                num2 = originalNum;
-
-            }
-            else if (newU.equals("torr")) {
-                num2 = originalNum * 760.00006601d;
-            }
-
-            else if (newU.equals("mmhg")) {
-                num2 = originalNum * 759.999952d;
-            }
-
-            else{
-                num2 = originalNum * 1.0132501d;
-            }
-        }
-
-        else if(original.equals("mmhg")) {
-            if (newU.equals("mmhg")) {
-                num2 = originalNum;
-
-            }
-            else if (newU.equals("torr")) {
-                num2 = originalNum * 1.00000015d;
-            }
-
-            else if (newU.equals("atm")) {
-                num2 = originalNum * 0.0013157895568d;
-            }
-
-            else{
-                num2 = originalNum *  0.0013332239d;
-            }
-        }
-
-        else{
-            if (newU.equals("bar")) {
-                num2 = originalNum;
-
-            }
-            else if (newU.equals("torr")) {
-                num2 = originalNum * 750.06167382d;
-            }
-
-            else if (newU.equals("atm")) {
-                num2 = originalNum * 0.98692316931d;
-            }
-
-            else{
-                num2 = originalNum *  750.0615613d;
-            }
-        }
-        return num2;
-    }
-
-    /**
-     * Converts a number from one unit of time to another
-     *
-     * Units of time supported: seconds, minutes, hours, days, weeks, months, years
-     *
-     * Marc Kuniansky
-     * @param originalNumber must be a valid double
-     * @param originalUnit must be a valid String matching one of the supported units
-     * @param newUnit must be a valid String matching one of the supported units
-     * @return a double, the converted number
-     */
-    public double timeConvert(double originalNumber, String originalUnit, String newUnit)
-    { //Begin convertTime
-        //Make two doubles, one that holds the original and one that will be redefined where needed
-        double num1 = originalNumber;
-        double num2 = 0.0d;
-
-        //Make two strings, capturing the units fed to the method
         String originalU = originalUnit.toLowerCase();
         String newU = newUnit.toLowerCase();
 
-        //The series of if statements below figures out what unit to convert from/to, and does so.
+
+        //Instantiate the metric converter
+        MetricConversion metrics;
+
+        //Begin the conversions
+        switch(originalU)
+        { //Begin conversion table
+            case "torr":
+                switch(newU)
+                { //Begin converting from torr
+                    case "torr":
+                        //One torr in a torr
+                        num2 = num1;
+                        break;
+                    case "atm":
+                        //There are 760 torr in one atm
+                        factor = new BigDecimal("760");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "bar":
+                        //There are 750.061683 torr in one bar
+                        factor = new BigDecimal("750.061683");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "pascal":
+                        //There are 133.322368 pascals in one torr
+                        factor = new BigDecimal("133.322368");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "kilopascal":
+                        //There are 7.50061683 torr in a kilopascal
+                        factor = new BigDecimal("7.50061683");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "megapascal":
+                        //There are 7500.61683 torr in on MPa
+                        factor = new BigDecimal("7500.61683");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from torr
+                break;
+            case "atm":
+                switch(newU)
+                { //Begin converting from atm
+                    case "torr":
+                        //760 Torr in 1 atm
+                        factor = new BigDecimal("760");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "atm":
+                        //One atm in one atm
+                        num2 = num1;
+                        break;
+                    case "bar":
+                        //There are 1.01325 bar in one atm
+                        factor = new BigDecimal("1.01325");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "pascal":
+                        //There are 101325 pascals in one atm
+                        factor = new BigDecimal("101325");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "kilopascal":
+                        //There are 101.325 kPa in one atm
+                        factor = new BigDecimal("101.325");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "megapascal":
+                        //There are 9.869232667 atm in one MPa
+                        factor = new BigDecimal("9.869232667");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from atm
+                break;
+            case "bar":
+                switch(newU)
+                { //Begin converting from bar
+                    case "torr":
+                        //There are 750.061682704 torr in one bar
+                        factor = new BigDecimal("750.061682704");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "atm":
+                        //There are 1.01325 bar in one atm
+                        factor = new BigDecimal("1.01325");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "bar":
+                        //One bar in one bar
+                        num2 = num1;
+                        break;
+                    case "pascal":
+                        //There are 100000 pascals in 1 bar
+                        factor = new BigDecimal("100000");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "kilopascal":
+                        //There are 100 kPa in 1 bar
+                        factor = new BigDecimal("100");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "megapascal":
+                        //There are 10 bar in one MPa
+                        factor = new BigDecimal("10");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from bar
+                break;
+            case "pascal":
+                switch(newU)
+                { //Begin converting from pascals
+                    case "torr":
+                        //There are 133.322368 pascals in one torr
+                        factor = new BigDecimal("133.322368");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "atm":
+                        //There are 101325 pascals in one atm
+                        factor = new BigDecimal("101325");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "bar":
+                        //There are 100000 pascals in 1 bar
+                        factor = new BigDecimal("100000");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "pascal":
+                        //One pascal in one pascal
+                        num2 = num1;
+                        break;
+                    case "kilopascal":
+                        //Use the MetricConversion class
+                        metrics = new MetricConversion(num1, "unit", "kilo");
+                        num2 = metrics.metricConvert();
+                        break;
+                    case "megapascal":
+                        //Use the MetricConversion class
+                        metrics = new MetricConversion(num1, "unit", "mega");
+                        num2 = metrics.metricConvert();
+                        break;
+                } //End converting from pascals
+                break;
+            case "kilopascal":
+                switch(newU)
+                { //Begin converting from kilopascals
+                    case "torr":
+                        //There are 7.50061683 torr in a kilopascal
+                        factor = new BigDecimal("7.50061683");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "atm":
+                        //There are 101.325 kPa in one atm
+                        factor = new BigDecimal("101.325");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "bar":
+                        //There are 100 kPa in 1 bar
+                        factor = new BigDecimal("100");
+                        num2 = num1.divide(factor, 10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "pascal":
+                        //Use the MetricConversion class
+                        metrics = new MetricConversion(num1, "kilo", "unit");
+                        num2 = metrics.metricConvert();
+                        break;
+                    case "kilopascal":
+                        //One kilopascal in one kilopascal
+                        num2 = num1;
+                        break;
+                    case "megapascal":
+                        //Use the MetricConversion class
+                        metrics = new MetricConversion(num1, "kilo", "mega");
+                        num2 = metrics.metricConvert();
+                        break;
+                } //End converting from kilopascals
+                break;
+            case "megapascal":
+                switch(newU)
+                { //Begin converting from megapascals
+                    case "torr":
+                        //There are 7500.61683 toor in one megapascal
+                        factor = new BigDecimal("7500.61683");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "atm":
+                        //There are 9.869232667 atm in one MPa
+                        factor = new BigDecimal("9.869232667");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "bar":
+                        //There are 10 bar in one MPa
+                        factor = new BigDecimal("10");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                    case "pascal":
+                        //Use the MetricConversion class
+                        metrics = new MetricConversion(num1, "mega", "unit");
+                        num2 = metrics.metricConvert();
+                        break;
+                    case "kilopascal":
+                        //Use the MetricConversion class
+                        metrics = new MetricConversion(num1, "mega", "kilo");
+                        num2 = metrics.metricConvert();
+                        break;
+                    case "megapascal":
+                        //One megapascal in one megapascal
+                        num2 = num1;
+                        break;
+                } //End converting from megapascals
+                break;
+        } //End conversion table
+
+        //Return the result
+        return num2;
+    } //End pressureConvert
+
+    /**
+     * Converts a number from one unit of time to another
+     * <p/>
+     * Units of time supported: seconds, minutes, hours, days, weeks, months, years
+     * <p/>
+     * Marc Kuniansky
+     *
+     * @param originalNum must be a valid double
+     * @param originalUnit must be a valid String matching one of the supported units
+     * @param newUnit  must be a valid String matching one of the supported units
+     * @return a BigDecimal, the converted number
+     */
+    public BigDecimal timeConvert(String originalNum, String originalUnit, String newUnit) { //Begin convertTime
+
+        //Make two variable doubles, one the original double and one the new one
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
+
+        //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
+        //Also convert them to lower case
+        String originalU = originalUnit.toLowerCase();
+        String newU = newUnit.toLowerCase();
 
         //Convert from seconds
-        if(originalU.equals("seconds"))
-        { //Begin converting from seconds
-            //Thanks Pam for the suggestion about switch statements- I realized far too late how easy they are to use and how much better they look.
-            switch(newU)
-            {
-                case "seconds":
-                    num2 = num1;
-                    break;
-                case "minutes":
-                    num2 = num1/60.0d;
-                    break;
-                case "hours":
-                    num2 = num1/3600.0d;
-                    break;
-                case "days":
-                    num2 = num1*0.000011574d;
-                    break;
-                case "weeks":
-                    num2 = num1*0.0000016534d;
-                    break;
-                case "months":
-                    num2 = num1*0.00000038027d;
-                    break;
-                case "years":
-                    num2 = num1*0.000000031689d;
-                    break;
-            }
-        } //End converting from seconds
+        switch (originalU)
+        { //Begin conversion chart
+            case "seconds":
+                switch (newU)
+                { //Begin converting from seconds
+                    case "seconds":
+                        num2 = num1;
+                        break;
+                    case "minutes":
+                        //There are 60 sconds in a minute
+                        factor = new BigDecimal("60.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "hours":
+                        //There are 3600 seconds in an hour
+                        factor = new BigDecimal("3600.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "days":
+                        //There are 86400 seconds in a day
+                        factor = new BigDecimal("86400");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "weeks":
+                        //There are 604800 seconds in a week
+                        factor = new BigDecimal("604800");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "months":
+                        //there are 2592000 seconds in a month
+                        factor = new BigDecimal("2592000");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "years":
+                        //There are 31556952 seconds in a year
+                        factor = new BigDecimal("31556952");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from seconds
+                break;
 
-        //Convert from minutes
-        else if(originalU.contains("minute"))
-        { //Begin converting from minutes
-            switch(newU)
-            {
-                case "minutes":
-                    num2 = num1;
-                    break;
-                case "seconds":
-                    num2 = num1*60.0d;
-                    break;
-                case "hours":
-                    num2 = num1/60.0d;
-                    break;
-                case "days":
-                    num2 = num1/1440.0d;
-                    break;
-                case "weeks":
-                    num2 = num1/10080.0d;
-                    break;
-                case "months":
-                    num2 = num1/43829.1d;
-                    break;
-                case "years":
-                    num2 = num1/525949.0d;
-            }
-        } //End converting from minutes
+            case "minutes":
+                switch (newU)
+                { //Begin converting from minutes
+                    case "minutes":
+                        num2 = num1;
+                        break;
+                    case "seconds":
+                        //There are 60 seconds in a minute
+                        factor = new BigDecimal("60");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "hours":
+                        //There are 60 minutes in an hour
+                        factor = new BigDecimal("60");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "days":
+                        //There are 1440 hours in a day
+                        factor = new BigDecimal("1440");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "weeks":
+                        //There are 10080 hours in a week
+                        factor = new BigDecimal("10080");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "months":
+                        //There are 43829 hours in a month
+                        factor = new BigDecimal("43829");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "years":
+                        //There are 52949 minutes in a year
+                        factor = new BigDecimal("52949");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                } //End converting from minutes
+                break;
 
-        //Convert from hours
-        else if(originalU.contains("hour"))
-        { //Begin converting from hours
-            switch(newU)
-            {
-                case "hours":
-                    num2 = num1;
-                    break;
-                case "seconds":
-                    num2 = num1*3600.0d;
-                    break;
-                case "minutes":
-                    num2 = num1*60.0d;
-                    break;
-                case "days":
-                    num2 = num1/24.0d;
-                    break;
-                case "weeks":
-                    num2 = num1/168.0d;
-                    break;
-                case "months":
-                    num2 = num1/730.484d;
-                    break;
-                case "years":
-                    num2 = num1/8765.81d;
-                    break;
-            }
-        } //End converting from hours
+            case "hours":
+                switch (newU)
+                { //Begin converting from hours
+                    case "hours":
+                        num2 = num1;
+                        break;
+                    case "seconds":
+                        //There are 3600 seconds in an hour
+                        factor = new BigDecimal("3600");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "minutes":
+                        //There are 60 minutes in an hour
+                        factor = new BigDecimal("60");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "days":
+                        //There are 24 hours in a day
+                        factor = new BigDecimal("24");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "weeks":
+                        //There are 168 hours in a week
+                        factor = new BigDecimal("168");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "months":
+                        //There are 730.484 hours in a month
+                        factor = new BigDecimal("730.484");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "years":
+                        //There are 8765.81 hours in a year
+                        factor = new BigDecimal("8765.81");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from hours
+                break;
 
-        //Convert from days
-        else if(originalU.contains("day"))
-        { //Begin converting from days
-            switch(newU)
-            {
-                case "days":
-                    num2 = num1;
-                    break;
-                case "seconds":
-                    num2 = num1*86400.0d;
-                    break;
-                case "minutes":
-                    num2 = num1*1440.0d;
-                    break;
-                case "hours":
-                    num2 = num1*24.0d;
-                    break;
-                case "weeks":
-                    num2 = num1/7.0d;
-                    break;
-                case "months":
-                    num2 = num1/30.4368d;
-                    break;
-                case "years":
-                    num2 = num1/365.242d;
-                    break;
-            }
-        } //End converting from days
+            case "days":
+                //Convert from days
+                switch (newU)
+                { //Begin converting from days
+                    case "days":
+                        num2 = num1;
+                        break;
+                    case "seconds":
+                        //There are 86400 seconds in a day
+                        factor = new BigDecimal("86400");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "minutes":
+                        //There are 1440 minutes in a day
+                        factor = new BigDecimal("1440");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "hours":
+                        //There are 24 hours in a day
+                        factor = new BigDecimal("24");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "weeks":
+                        //There are 7 days in a week
+                        factor = new BigDecimal("7");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "months":
+                        //There are 30.4638 days in a month
+                        factor = new BigDecimal("30.4638");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "years":
+                        //There are 365.242 days in a year
+                        factor = new BigDecimal("365.242");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from days
+                break;
 
-        else if(originalU.contains("week"))
-        { //Begin converting from weeks
-            switch(newU)
-            {
-                case "weeks":
-                    num2 = num1;
-                    break;
-                case "seconds":
-                    num2 = num1*604800.0d;
-                    break;
-                case "minutes":
-                    num2 = num1*10080.0d;
-                    break;
-                case "hours":
-                    num2 = num1*168.0d;
-                    break;
-                case "days":
-                    num2 = num1*7.0d;
-                    break;
-                case "months":
-                    num2 = num1/4.34812d;
-                    break;
-                case "years":
-                    num2 = num1/52.1775d;
-                    break;
-            }
-        } //End converting from weeks
+            case "weeks":
+                switch (newU)
+                { //Begin converting from weeks
+                    case "weeks":
+                        num2 = num1;
+                        break;
+                    case "seconds":
+                        //there are 604800
+                        factor = new BigDecimal("604800");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "minutes":
+                        //There are 10080 minutes in a week
+                        factor = new BigDecimal("10080");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "hours":
+                        //There are 168 hours in a week
+                        factor = new BigDecimal("168");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "days":
+                        //There are 7 days in a week
+                        factor = new BigDecimal("7");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "months":
+                        //There are 4.34812 weeks in a month
+                        factor = new BigDecimal("4.34812");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "years":
+                        //There are 52.1775 weeks in a year
+                        factor = new BigDecimal("52.1775");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from weeks
+                break;
 
-        //Convert from months
-        else if(originalU.contains("month"))
-        { //Begin converting from months
-            switch(newU)
-            {
-                case "months":
-                    num2 = num1;
-                    break;
-                case "seconds":
-                    num2 = num1*2630000.0d;
-                    break;
-                case "minutes":
-                    num2 = num1*43829.1d;
-                    break;
-                case "hours":
-                    num2 = num1*730.484d;
-                    break;
-                case "days":
-                    num2 = num1*30.4368d;
-                    break;
-                case "weeks":
-                    num2 = num1*4.34812d;
-                    break;
-                case "years":
-                    num2 = num1/12.0d;
-                    break;
-            }
-        } //End converting from months
+            case "months":
+                switch (newU)
+                { //Begin converting from months
+                    case "months":
+                        num2 = num1;
+                        break;
+                    case "seconds":
+                        //There are 2630000.0 seconds in a month
+                        factor = new BigDecimal("2630000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "minutes":
+                        //There are 43829.1 minutes in a month
+                        factor = new BigDecimal("43829.1");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "hours":
+                        //There are 730.484 hours in a month
+                        factor = new BigDecimal("730.484");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "days":
+                        //There are 30.4368 days in a month
+                        factor = new BigDecimal("30.4368");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "weeks":
+                        //There are 4.34812 weeks in a month
+                        factor = new BigDecimal("4.34812");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                    case "years":
+                        //There are 12 months in a year
+                        factor = new BigDecimal("12");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from months
+                break;
 
-        //Convert from years
-        else
-        { //Begin converting from years
-            switch(newU)
-            {
-                case "years":
-                    num2 = num1;
-                    break;
-                case "seconds":
-                    num2 = num1*31560000.0d;
-                    break;
-                case "minutes":
-                    num2 = num1*525949.0d;
-                    break;
-                case "hours":
-                    num2 = num1*8765.81d;
-                    break;
-                case "days":
-                    num2 = num1*365.242d;
-                    break;
-                case "weeks":
-                    num2 = num1*52.1775d;
-                    break;
-                case "months":
-                    num2 = num1*12.0d;
-                    break;
-            }
-        } //End converting from years
+            case "years":
+                switch (newU)
+                { //Begin converting from years
+                    case "years":
+                        num2 = num1;
+                        break;
+                    case "seconds":
+                        //There are 31560000 seconds in a year
+                        factor = new BigDecimal("31560000");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "minutes":
+                        //There are 525949.0 minutes in a year
+                        factor = new BigDecimal("525949.0");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "hours":
+                        //There are 8765.81 hours in a year
+                        factor = new BigDecimal("8765.81");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "days":
+                        //There are 365.242 days in a year
+                        factor = new BigDecimal("365.242");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "weeks":
+                        //There are 52.1775 weeks in a year
+                        factor = new BigDecimal("52.1775");
+                        num2 = num2.multiply(factor);
+                        break;
+                    case "months":
+                        //There are 12 months in a year
+                        factor = new BigDecimal("12");
+                        num2 = num2.multiply(factor);
+                        break;
+                } //End converting from year
+        }
 
+        //Return the result
         return num2;
     } //End convertTime
 
     /**
      * Converts a number from one unit of force to another.
-     *
+     * <p/>
      * Units accepted: Newtons, pound force
-     *
+     * <p/>
      * Marc Kuniansky
-     * @param originalNumber must be a valid double
-     * @param originalUnit must be a valid String matching one of the supported units
-     * @param newUnit must be a valid String matching one of the supported units
-     * @return a double, the converted unit.
+     *
+     * @param originalNum must be a valid double
+     * @param originalUnit   must be a valid String matching one of the supported units
+     * @param newUnit        must be a valid String matching one of the supported units
+     * @return a BigDecimal, the converted unit.
      */
-    public double forceConvert(double originalNumber, String originalUnit, String newUnit)
-    { //Begin convertForce
-        //Make two doubles, one that holds the original and one that will be redefined where needed
-        double num1 = originalNumber;
-        double num2 = 0.0d;
+    public BigDecimal forceConvert(String originalNum, String originalUnit, String newUnit) { //Begin convertForce
 
-        //Make two strings, capturing the units fed to the method
+        //Make two variable doubles, one the original double and one the new one
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
+
+        //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
+        //Also convert them to lower case
         String originalU = originalUnit.toLowerCase();
         String newU = newUnit.toLowerCase();
 
         //The series of switch statements below figures out what unit to convert from/to, and does so.
-        switch(originalU)
-        {
+        switch (originalU)
+        { //Begin conversion table
             case "pound force":
-                switch(newU)
-                {
+                switch (newU)
+                { //Begin converting from pound force
                     case "pound force":
+                        //There is 1 pound force in a pound force
                         num2 = num1;
                         break;
-                     case "newtons":
-                         num2 = num1*4.448222d;
-                         break;
-            }
+                    case "newtons":
+                        //There are 4.448222 newtons in a pound force
+                        factor = new BigDecimal("4.448222");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from pound force
                 break;
             case "newtons":
-                switch (newU) {
-                     case "newtons":
-                         num2 = num1;
-                         break;
-                     case "pound force":
-                         num2 = num1 / 4.448222d;
-                         break;
-            }
-        }
+                switch (newU)
+                { //Begin converting from newtons
+                    case "newtons":
+                        //There is one newton in a newton
+                        num2 = num1;
+                        break;
+                    case "pound force":
+                        //There are 4.448222 newtons in a pound force
+                        factor = new BigDecimal("4.448222");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
+                        break;
+                } //End converting from newtons
+        } //End conversion table
+
+        //Return the result
         return num2;
     } //End convertForce
 
     /**
      * Converts a number from one unit of speed to another
-     *
+     * <p/>
      * Recognized speed units: miles per hour, feet per second, meters per second,
      * kilometers per second, kilometers per hour.
-     *
+     * <p/>
      * Marc Kuniansky
-     * @param originalNumber must be a valid double
+     *
+     * @param originalNum must be a valid double
      * @param originalUnit must be a valid String recognized by the method
      * @param newUnit must be a valid String recognized by the method
-     * @return double, the converted unit.
-     */
-    public double speedConvert(double originalNumber, String originalUnit, String newUnit)
-    { //Begin convertSpeed
-        //Make two doubles, one that holds the original and one that will be redefined where needed
-        double num1 = originalNumber;
-        double num2 = 0.0d;
+     * @return BigDecimal, the converted unit.
+     **/
+    public BigDecimal speedConvert(String originalNum, String originalUnit, String newUnit) { //Begin convertSpeed
 
-        //Make two strings, capturing the units fed to the method
+        //Make two variable doubles, one the original double and one the new one
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
+
+        //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
+        //Also convert them to lower case
         String originalU = originalUnit.toLowerCase();
         String newU = newUnit.toLowerCase();
 
-        //The series of if statements below figures out what unit to convert from/to, and does so.
-
-        switch(originalU)
-        { //Begin conversion table
+        switch (originalU) { //Begin conversion table
             case "miles per hour":
-                switch(newU)
+                switch (newU)
                 { //Begin converting from miles per hour
                     case "miles per hour":
-                        num2 = originalNumber;
+                        //One mile per hour in a mile per hour
+                        num2 = num1;
                         break;
                     case "feet per second":
-                        num2 = num1*1.46667d;
+                        //1.4667 fps in 1 mph
+                        factor = new BigDecimal("1.4667");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per second":
-                        num2 = num1*0.00044704d;
+                        //2236.94 mph per kps
+                        factor = new BigDecimal("2236.94");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per hour":
-                        num2 = num1*1.60934d;
+                        //1.60934 kph per mph
+                        factor = new BigDecimal("1.60934");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters per second":
-                        num2 = num1*0.44704d;
+                        //2.23694 mph per meter per second
+                        factor = new BigDecimal("2.23694");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from miles per hour
                 break;
             case "feet per second":
-                switch(newU)
+                switch (newU)
                 { //Begin converting from feet per second
                     case "miles per hour":
-                        num2 = num1*0.681818d;
+                        //1.4667 fps per mph
+                        factor = new BigDecimal("1.4667");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "feet per second":
-                        num2 = originalNumber;
+                        //1 fps in 1 fps
+                        num2 = num1;
                         break;
                     case "kilometers per second":
-                        num2 = num1*0.0003048d;
+                        //3280.84 fps per kps
+                        factor = new BigDecimal("3280.84");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per hour":
-                        num2 = num1*1.09728d;
+                        //1.09728 kph per fps
+                        factor = new BigDecimal("1.09728");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters per second":
-                        num2 = num1*0.3048d;
+                        //3.28084 fps per mps
+                        factor = new BigDecimal("3.28084");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from feet per second
                 break;
             case "kilometers per second":
-                switch(newU)
+                switch (newU)
                 { //Begin converting from kilometers per second
                     case "miles per hour":
-                        num2 = num1*2236.93629d;
+                        //2236.94 mph per kps
+                        factor = new BigDecimal("2236.94");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet per second":
-                        num2 = num1*3280.8399d;
+                        //3280.84 fps per kps
+                        factor = new BigDecimal("3280.84");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per second":
-                        num2 = originalNumber;
+                        //1 kps in 1 kps
+                        num2 = num1;
                         break;
                     case "kilometers per hour":
-                        num2 = num1*3600.0d;
+                        //3600 kph per kps
+                        factor = new BigDecimal("3600");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters per second":
-                        num2 = num1*0.277778d;
+                        ///1000 mps per kmps
+                        factor = new BigDecimal("1000");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from kilometers per second
                 break;
             case "kilometers per hour":
-                switch(newU)
+                switch (newU)
                 { //Begin converting from kilometers per hour
                     case "miles per hour":
-                        num2 = num1*2.23694d;
+                        //1.60934 kph per mph
+                        factor = new BigDecimal("1.60934");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet per second":
-                        num2 = num1*0.911344d;
+                        //1.09728 kph per fps
+                        factor = new BigDecimal("1.09728");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per second":
-                        num2 = num1*0.000277777778d;
+                        //3600 kph per kps
+                        factor = new BigDecimal("3600");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per hour":
-                        num2 = originalNumber;
+                        //1 kph in 1 kph
+                        num2 = num1;
                         break;
                     case "meters per second":
-                        num2 = num1*0.277778d;
+                        //3.6 kph per mph
+                        factor = new BigDecimal("3.6");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                 } //end converting from kilometers per hour
                 break;
             case "meters per second":
-                switch(newU)
+                switch (newU)
                 { //Begin converting from meters per second
                     case "miles per hour":
-                        num2 = num1*2.23694d;
+                        //2.23694 mph per meter per second:
+                        factor = new BigDecimal("2.23694");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "feet per second":
-                        num2 = num1*3.28084d;
+                        //3.28084 fps per mps
+                        factor = new BigDecimal("3.28084");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per second":
-                        num2 = num1*0.001d;
+                        ///1000 mps per kmps
+                        factor = new BigDecimal("1000");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "kilometers per hour":
-                        num2 = num1*3.6d;
+                        //3.6 kph per mph
+                        factor = new BigDecimal("3.6");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "meters per second":
-                        num2 = originalNumber;
+                        //1 mps in 1 mps
+                        num2 = num1;
                         break;
                 } //End converting from meters per second
                 break;
@@ -1244,206 +1740,293 @@ public class Converter
 
     /**
      * Converts a number from one unit of speed to another.
-     *
+     * <p/>
      * Accepted units: square inches, square feet, square yards, square miles, square meters, square kilometers, acres
-     *
+     * <p/>
      * Marc Kuniansky
-     * @param originalNumber must be a valid double
+     *
+     * @param originalNum must be a valid double
      * @param originalUnit must be a valid String matching one of the supported units
      * @param newUnit must be a valid String matching one of the supported units
-     * @return a double, the converted unit.
-     */
-    public double areaConvert(double originalNumber, String originalUnit, String newUnit)
-    { //Begin convertArea
-        //Make two doubles, one that holds the original and one that will be redefined where needed
-        double num1 = originalNumber;
-        double num2 = 0.0d;
+     * @return a BigDecimal, the converted unit.
+     **/
+    public BigDecimal areaConvert(String originalNum, String originalUnit, String newUnit) { //Begin areaConvert
 
-        //Make two strings, capturing the units fed to the method
+        //Make two variable doubles, one the original double and one the new one
+        BigDecimal num1 = new BigDecimal(originalNum);
+        BigDecimal num2 = new BigDecimal("0.0");
+
+        //Make a BigDouble to hold the conversion factor for the conversion to be done.
+        BigDecimal factor;
+
+        //Store the units into new strings. I find this to be safer, as I can't override the originals this way.
+        //Also convert them to lower case
         String originalU = originalUnit.toLowerCase();
         String newU = newUnit.toLowerCase();
 
-        switch(originalU)
-        {
+        switch (originalU) {
             //Begin unit conversions
             case "square inches":
-                switch(newU)
-                { //Begin converting from square inches
+                switch (newU) { //Begin converting from square inches
                     case "square inches":
+                        //One square inch in a square inch
                         num2 = num1;
                         break;
                     case "square feet":
-                        num2 = num1/144.0d;
+                        //There are 144 square inches in a square foot
+                        factor = new BigDecimal("144.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square yards":
-                        num2 = num1/1296.0d;
+                        //There are 1296.0 square inches in a square yard
+                        factor = new BigDecimal("1296.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square miles":
-                        num2 = num1/4014000000.0d;
+                        //There are 4014000000.0 square inches in a square mile
+                        factor = new BigDecimal("4014000000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "acres":
-                        num2 = num1/6273000.0d;
+                        //There are 6273000.0 square inches in an acre
+                        factor = new BigDecimal("6273000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square kilometers":
-                        num2 = num1/1550000000.0d;
+                        //There are 1550000000.0 square inches in a square kilometer
+                        factor = new BigDecimal("1550000000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square meters":
-                        num2 = num1/1550.0d;
+                        //There are 1550.0 square inches in a square meter
+                        factor = new BigDecimal("1550.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from square inches
                 break;
             case "square feet":
-                switch(newU)
-                { //Begin converting from square feet
+                switch (newU) { //Begin converting from square feet
                     case "square inches":
-                        num2 = num1*144.0d;
+                        //There are 144.0 square inches in a square foot
+                        factor = new BigDecimal("144.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square feet":
                         num2 = num1;
                         break;
                     case "square yards":
-                        num2 = num1/9.0d;
+                        //There are 9 square feet in a square yard
+                        factor = new BigDecimal("9");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square miles":
-                        num2 = num1/27880000.0d;
+                        //There are 27880000.0 square feet in a square mile
+                        factor = new BigDecimal("27880000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "acres":
-                        num2 = num1/43560.0d;
+                        //There are 43560.0 square feet in an acre
+                        factor = new BigDecimal("43560.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square kilometers":
-                        num2 = num1/10760000.0d;
+                        //There are 10760000.0 square feet in a square kilometer
+                        factor = new BigDecimal("10760000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square meters":
-                        num2 = num1/10.7639d;
+                        //There are 10.7639 square feet in a square meter
+                        factor = new BigDecimal("10.7639");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from square feet
                 break;
             case "square yards":
-                switch(newU)
-                { //Begin converting from square yards
+                switch (newU) { //Begin converting from square yards
                     case "square inches":
-                        num2 = num1*1296.0d;
+                        //There are 1296.0 square inches in a square yard
+                        factor = new BigDecimal("1296.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square feet":
-                        num2 = num1*9.0d;
+                        //There are 9 square feet in a square yard
+                        factor = new BigDecimal("9");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square yards":
+                        //There is one square yard in a square yard
                         num2 = num1;
                         break;
                     case "square miles":
-                        num2 = num1/3098000.0d;
+                        //There are 3098000.0 square yards in a square mile
+                        factor = new BigDecimal("3098000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "acres":
-                        num2 = num1/4840.0d;
+                        //There are 4840.0 square yards in an acre
+                        factor = new BigDecimal("4840.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square kilometers":
-                        num2 = num1/1196000.0d;
+                        //There are 1196000.0 square yards in a square kilometer
+                        factor = new BigDecimal("1196000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square meters":
-                        num2 = num1/1.19599d;
+                        //There are 1.19599 square yards in a square meter
+                        factor = new BigDecimal("1.19599");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                 }//End converting from square yards
                 break;
             case "square miles":
-                switch(newU)
-                { //Begin converting from square miles
+                switch (newU) { //Begin converting from square miles
                     case "square inches":
-                        num2 = num1*4014000000.0d;
+                        //There are 4014000000.0 square inches in a square mile
+                        factor = new BigDecimal("4014000000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square feet":
-                        num2 = num1*27880000.0d;
+                        //There are 27880000.0 square feet in a square mile
+                        factor = new BigDecimal("27880000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square yards":
-                        num2 = num1*3098000.0d;
+                        //There are 3098000.0 square yards in a square mile
+                        factor = new BigDecimal("3098000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square miles":
+                        //There is one square mile in a square mile
                         num2 = num1;
                         break;
                     case "acres":
-                        num2 = num1*640.0d;
+                        //There are 640.0 acres in a square mile
+                        factor = new BigDecimal("640.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square kilometers":
-                        num2 = num1*2.58999d;
+                        //There are 2.58999 square kilometers in a square mile
+                        factor = new BigDecimal("2.58999");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square meters":
-                        num2 = num1*2590000.0d;
+                        //There are 2590000.0 square meters in a square mile
+                        factor = new BigDecimal("2590000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 }//End converting from square miles
                 break;
             case "acres":
-                switch(newU)
-                {//Begin converting from acres
+                switch (newU) {//Begin converting from acres
                     case "square inches":
-                        num2 = num1*6273000.0d;
+                        //There are 6273000.0 square inches in an acre
+                        factor = new BigDecimal("6273000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square feet":
-                        num2 = num1*43560.0d;
+                        //There are 43560.0 square feet in an acre
+                        factor = new BigDecimal("43560.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square yards":
-                        num2 = num1*4840.0d;
+                        //There are 4840.0 square yards in an acre
+                        factor = new BigDecimal("4840.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square miles":
-                        num2 = num1/640.0d;
+                        //There are 640.0 acres in a square mile
+                        factor = new BigDecimal("640.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
-                    case "square acres":
+                    case "acres":
+                        //There is one acre in an acre
                         num2 = num1;
                         break;
                     case "square kilometers":
-                        num2 = num1/247.105d;
+                        //There are 247.105 acres in a square kilometer
+                        factor = new BigDecimal("247.105");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square meters":
-                        num2 = num1*4046.86d;
+                        //There are 4046.86 square meters in an acre
+                        factor = new BigDecimal("4046.86");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from acres
                 break;
-            case "kilo":
-                switch(newU)
-                { //Begin converting from square kilometers
+            case "square kilometers":
+                switch (newU) { //Begin converting from square kilometers
                     case "square inches":
-                        num2 = num1*1550000000.0d;
+                        //There are 1550000000.0 square inches in a square kilometer
+                        factor = new BigDecimal("1550000000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square feet":
-                        num2 = num1*10760000.0d;
+                        //There are 10760000.0 square feet in a square kilometer
+                        factor = new BigDecimal("10760000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square yards":
-                        num2 = num1*1196000.0d;
+                        //There are 1196000.0 square yards in a square kilometer
+                        factor = new BigDecimal("1196000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square miles":
-                        num2 = num1/2.58999d;
+                        //There are 2.58999 square kilometers in a square mile
+                        factor = new BigDecimal("2.58999");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "acres":
-                        num2 = num1;
+                        //There are 247.105 acres in a square kilometer
+                        factor = new BigDecimal("247.105");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square kilometers":
+                        //There is one square kilometer in a square kilometer
                         num2 = num1;
                         break;
                     case "square meters":
-                        num2 = num1*1000000.0d;
+                        //There are 1000000.0 square meters in a square kilometer
+                        factor = new BigDecimal("1000000.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                 } //End converting from square kilometers
                 break;
             case "square meters":
-                switch(newU)
-                { //Begin converting from square meters
+                switch (newU) { //Begin converting from square meters
                     case "square inches":
-                        num2 = num1*1550.0d;
+                        //There are 1550.0 square inches in a square meter
+                        factor = new BigDecimal("1550.0");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square feet":
-                        num2 = num1*10.7639d;
+                        //There are 10.7639 square feet in a square meter
+                        factor = new BigDecimal("10.7639");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square yards":
-                        num2 = num1*1.19599d;
+                        //There are 1.19599 square yards in a square meter
+                        factor = new BigDecimal("1.19599");
+                        num2 = num1.multiply(factor).setScale(10, RoundingMode.HALF_EVEN);
                         break;
                     case "square miles":
-                        num2 = num1/2590000.0d;
+                        //There are 2590000.0 square meters in a square mile
+                        factor = new BigDecimal("2590000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "acres":
-                        num2 = num1/4046.86d;
+                        //There are 4046.86 square meters in an acre
+                        factor = new BigDecimal("4046.86");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square kilometers":
-                        num2 = num1/1000000.0d;
+                        //There are 1000000.0 square meters in a square kilometer
+                        factor = new BigDecimal("1000000.0");
+                        num2 = num1.divide(factor, 200, RoundingMode.HALF_EVEN);
                         break;
                     case "square meters":
+                        //There is one square meter in a square meter
                         num2 = num1;
                         break;
                 } //End converting from square meters
@@ -1451,315 +2034,6 @@ public class Converter
 
         //Return the resulting number from the conversion table above
         return num2;
-    } //End convertArea
-
-    /**
-     * Converts between metric prefixes. The type of unit is unimportant- the metric system operates on a base 10 system
-     * and so converting between, say, millimeters and meters is exactly the same as converting between milliliters and liters.
-     *
-     * Accepted prefixes: yotta, zeta, exa, peta, tera, giga, mega, kilo, hecto, deka, UNIT,
-     * deci, centi, milli, micro, nano, pico, femto, atto, zepto, yocto
-     *
-     * Marc Kuniansky
-     * @param originalNumber must be a valid double
-     * @param originalUnit must be a valid String matching one of the supported units
-     * @param newUnit must be a valid String matching one of the supported units
-     * @return a double, the converted number
-     */
-    public double metricConvert(double originalNumber, String originalUnit, String newUnit)
-    { //Begin metricConvert
-        //This can use a slightly different, and much easier, algorithm than the others.
-        //Because metric is so well organized, it doesn't matter what number is input- the conversion factors are the same.
-        //So if I take the original number and convert it to UNITS (which is x*10^0) then convert from UNITS to the new unit,
-        //I can very easily do these conversions with very little work. I will heavily utilize the math class here, I need to
-        //use exponents quite a bit to simplify life.
-
-        //First, I will need four doubles: the original number, the UNIT number, the final number, and a variable with which to catch the
-        //powers of 10.
-        double num1 = originalNumber;
-        double unitNum = 0d;
-        double finalNum = 0d;
-        double tenP;
-
-        //I like to grab the two strings to prevent accidental editing/deletion. I also send them to lower case.
-        String originalUn = originalUnit.toLowerCase();
-        String newUn = newUnit.toLowerCase();
-
-        String originalU;
-        if(originalUn.contains(" ")) {
-            originalU = originalUn.substring(0, originalUn.indexOf(" "));
-        }
-        else
-        {
-            originalU = originalUn;
-        }
-
-        //If the string from the MetricActivity spinners is passed, there will be a space. Remove everything after it.
-        String newU;
-        if(newUn.contains(" ")) {
-            newU = newUn.substring(0, newUn.indexOf(" "));
-        }
-        else
-        {
-            newU = newUn;
-        }
-        //String newU = newUn.substring(0, newUn.indexOf(" "));
-        //Next, I use the first of two switch statements. This converts the original number to UNITS, or x*10^0.
-        switch(originalU)
-        {
-            case "yotta":
-                //Yotta is 10^24 units
-                tenP = allExponents(10d, 24d);
-                unitNum = tenP*num1;
-                break;
-            case "zeta":
-                //Zeta is 10^21
-                tenP = allExponents(10d, 21d);
-                unitNum = tenP*num1;
-                break;
-            case "exa":
-                //Exa is 10^18
-                tenP = allExponents(10d, 18d);
-                unitNum = tenP*num1;
-                break;
-            case "peta":
-                //Peta is 10^15
-                tenP = allExponents(10d, 15d);
-                unitNum = tenP*num1;
-                break;
-            case "tera":
-                //Tera is 10^12
-                tenP = allExponents(10d, 12d);
-                unitNum = tenP*num1;
-                break;
-            case "giga":
-                //Giga is 10^9
-                tenP = allExponents(10d, 9d);
-                unitNum = tenP*num1;
-                break;
-            case "mega":
-                //Mega is 10^6
-                tenP = allExponents(10d, 6d);
-                unitNum = tenP*num1;
-                break;
-            case "kilo":
-                //Kilo is 10^3
-                tenP = allExponents(10d, 3d);
-                unitNum = tenP*num1;
-                break;
-            case "hecto":
-                //Hecto is 10^2
-                tenP = allExponents(10d, 2d);
-                unitNum = tenP*num1;
-                break;
-            case "deka":
-                //Deka is 10^1
-                tenP = allExponents(10d, 1d);
-                unitNum = tenP*num1;
-                break;
-            case "unit":
-                //UNIT is the target, 10^0
-                tenP = allExponents(10d, 0d);
-                unitNum = tenP*num1;
-                break;
-            case "deci":
-                //Deci is 10^-1
-                tenP = allExponents(10d, -1d);
-                unitNum = num1*tenP;
-                break;
-            case "centi":
-                //Centi is 10^-2
-                tenP = allExponents(10d, -2d);
-                unitNum = num1*tenP;
-                break;
-            case "milli":
-                //Milli is 10^-3
-                tenP = allExponents(10d, -3d);
-                unitNum = num1*tenP;
-                break;
-            case "micro":
-                //Micro is 10^-6
-                tenP = allExponents(10d, -6d);
-                unitNum = num1*tenP;
-                break;
-            case "nano":
-                //Nano is 10^-9
-                tenP = allExponents(10d, -9d);
-                unitNum = num1*tenP;
-                break;
-            case "pico":
-                //Pico is 10^-12
-                tenP = allExponents(10d, -12d);
-                unitNum = num1*tenP;
-                break;
-            case "femto":
-                //Femto is 10^-15
-                tenP = allExponents(10d, -15d);
-                unitNum = num1*tenP;
-                break;
-            case "atto":
-                //Atto is 10^-18
-                tenP = allExponents(10d, -18d);
-                unitNum = num1*tenP;
-                break;
-            case "zepto":
-                //Zepto is 10^-21
-                tenP = allExponents(10d, -21d);
-                unitNum = num1*tenP;
-                break;
-            case "yocto":
-                //Yocto is 10^-24
-                tenP = allExponents(10d, -24d);
-                unitNum = num1*tenP;
-                break;
-        }
-
-        //Next is a switch statement for all possible cases of the new unit. It takes
-        //the number given by the first switch, unitNum, and converts it to the new unit
-        //using math.
-        switch(newU)
-        { //Begin converting from base units (10^0) to new units.
-            case "yotta":
-                //Yotta is 10^24 units
-                tenP = allExponents(10d, 24d);
-                finalNum = unitNum/tenP;
-                break;
-            case "zeta":
-                //Zeta is 10^21
-                tenP = allExponents(10d, 21d);
-                finalNum = unitNum/tenP;
-                break;
-            case "exa":
-                //Exa is 10^18
-                tenP = allExponents(10d, 18d);
-                finalNum = unitNum/tenP;
-                break;
-            case "peta":
-                //Peta is 10^15
-                tenP = allExponents(10d, 15d);
-                finalNum = unitNum/tenP;
-                break;
-            case "tera":
-                //Tera is 10^12
-                tenP = allExponents(10d, 12d);
-                finalNum = unitNum/tenP;
-                break;
-            case "giga":
-                //Giga is 10^9
-                tenP = allExponents(10d, 9d);
-                finalNum = unitNum/tenP;
-                break;
-            case "mega":
-                //Mega is 10^6
-                tenP = allExponents(10d, 6d);
-                finalNum = unitNum/tenP;
-                break;
-            case "kilo":
-                //Kilo is 10^3
-                tenP = allExponents(10d, 3d);
-                finalNum = unitNum/tenP;
-                break;
-            case "hecto":
-                //Hecto is 10^2
-                tenP = allExponents(10d, 2d);
-                finalNum = unitNum/tenP;
-                break;
-            case "deka":
-                //Deka is 10^1
-                tenP = allExponents(10d, 1d);
-                finalNum = unitNum/tenP;
-                break;
-            case "unit":
-                //UNIT is the target, 10^0
-                tenP = allExponents(10d, 0d);
-                finalNum = unitNum/tenP;
-                break;
-            case "deci":
-                //Deci is 10^-1
-                tenP = allExponents(10d, -1d);
-                finalNum = unitNum/tenP;
-                break;
-            case "centi":
-                //Centi is 10^-2
-                tenP = allExponents(10d, -2d);
-                finalNum = unitNum/tenP;
-                break;
-            case "milli":
-                //Milli is 10^-3
-                tenP = allExponents(10d, -3d);
-                finalNum = unitNum/tenP;
-                break;
-            case "micro":
-                //Micro is 10^-6
-                tenP = allExponents(10d, -6d);
-                finalNum = unitNum/tenP;
-                break;
-            case "nano":
-                //Nano is 10^-9
-                tenP = allExponents(10d, -9d);
-                finalNum = unitNum/tenP;
-                break;
-            case "pico":
-                //Pico is 10^-12
-                tenP = allExponents(10d, -12d);
-                finalNum = unitNum/tenP;
-                break;
-            case "femto":
-                //Femto is 10^-15
-                tenP = allExponents(10d, -15d);
-                finalNum = unitNum/tenP;
-                break;
-            case "atto":
-                //Atto is 10^-18
-                tenP = allExponents(10d, -18d);
-                finalNum = unitNum/tenP;
-                break;
-            case "zepto":
-                //Zepto is 10^-21
-                tenP = allExponents(10d, -21d);
-                finalNum = unitNum/tenP;
-                break;
-            case "yocto":
-                //Yocto is 10^-24
-                tenP = allExponents(10d, -24d);
-                finalNum = unitNum/tenP;
-                break;
-        } //End converting from base units (10^0) to new units.
-
-        //Finally, return the final number
-        return finalNum;
-    } //End metricConvert
-
-    /**
-     * Helping method which will allow an exponent to be either positive or negative, unlike the math pow() method.
-     * Thanks to this page for the idea to do this, and for the skeleton code- http://stackoverflow.com/questions/4364634/calculate-the-power-of-any-exponent-negative-or-positive
-     *
-     * Marc Kuniansky
-     * @param base must be a valid double
-     * @param exponent must be a valid double
-     * @return the resulting number
-     */
-    private double allExponents(double base, double exponent)
-    { //Begin allExponents
-        double b = base;
-        double e = Math.abs(exponent);
-        double finalNum;
-        if (exponent > 0)
-        {
-            finalNum = Math.pow(base, e);
-        }
-        else if (exponent < 0)
-        {
-            double p = Math.pow(base, e);
-            finalNum = 1/p;
-        }
-        else
-        {
-            finalNum = 1;
-        }
-
-        return finalNum;
-    } //End allExponents
-
+    } //End areaConvert
 
 } //End converter class

@@ -12,7 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import java.math.*;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class MetricActivity extends AppCompatActivity {
     private Spinner spinner1, spinner2;
     private EditText textField1;
     private TextView textView;
-    private Double number;
+    private String number;
 
     //When the activity is created, the XML file needs to be shown and the spinners need to be activated and populated.
     //To populate the spinners, the addItemsOnSpinner method was created. A listener is then used to listen
@@ -83,7 +86,7 @@ public class MetricActivity extends AppCompatActivity {
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
         //Instantiate a converter
-        Converter converter = new Converter();
+        MetricConversion converter;
         textField1 = (EditText) findViewById(R.id.metric_input);
         //First, get the number from the text field
         String numStr = textField1.getText().toString();
@@ -91,23 +94,20 @@ public class MetricActivity extends AppCompatActivity {
         //If the user inputs nothing, or inputs an invalid character instead of a number, or
         //if the user's input contains too many decimals, return as 0
         if(numStr.equals("")) {
-            number = 0.0;
+            number = "0.0";
         }
         else if(numStr.equals("."))
         {
-            number = 0.0;
+            number = "0.0";
         }
         else if(numStr.contains(".."))
         {
-            number = 0.0;
+            number = "0.0";
         }
         else
         {
-            number = new Double(numStr);
+            number = numStr;
         }
-
-        // if(number.isNaN())
-        //   number = 0.0;
 
         //Finally, get the text view we need later to display the answer
         textView = (TextView)findViewById(R.id.metric_textView2);
@@ -116,11 +116,25 @@ public class MetricActivity extends AppCompatActivity {
         String originalUnits = spinner1.getSelectedItem().toString();
         String newUnits = spinner2.getSelectedItem().toString();
 
+        converter = new MetricConversion(number, originalUnits, newUnits);
         //Feed the units and the number into the Converter class and capture the output
-        Double finalNumber = converter.metricConvert(number, originalUnits, newUnits);
-        //Set the text view to show the new number. Need to convert double to string
-        String finalString = Double.toString(finalNumber);
-        textView.setText(finalString);
+        BigDecimal finalNumber = converter.metricConvert();
+
+        //When numbers get really long, then convert them to scientific notation.
+        if((finalNumber.compareTo(new BigDecimal("99999"))>0 || finalNumber.compareTo(new BigDecimal("0.00001"))<0)) {
+            //These decimals can get pretty huge, so convert them to scientific notation.
+            NumberFormat formatter = new DecimalFormat("0.0E0");
+            formatter.setRoundingMode(RoundingMode.HALF_UP);
+            formatter.setMinimumFractionDigits(6);
+            String formattedNum = formatter.format(finalNumber);
+            textView.setText(formattedNum);
+        }
+        else
+        {
+            BigDecimal formattedNum = finalNumber.setScale(6, RoundingMode.HALF_EVEN);
+            textView.setText(formattedNum.toString());
+        }
+
     } //End convert metric
 
     /**
